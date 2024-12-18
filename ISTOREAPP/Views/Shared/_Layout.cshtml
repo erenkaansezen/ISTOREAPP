@@ -30,15 +30,15 @@
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mx-auto">
 
-                    <li><a href="#" class="nav-link px-3 text-secondary">Anasayfa</a></li>
-                    <li><a href="#" class="nav-link px-3 text-white">Mağaza</a></li>
-                    <li><a href="#" class="nav-link px-3 text-white">Hakkımızda</a></li>
-                    <li><a href="#" class="nav-link px-3 text-white">İletişim</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" class="nav-link px-3 text-secondary">Anasayfa</a></li>
+                    <li><a asp-controller="Home" asp-action="Store" class="nav-link px-3 text-white">Mağaza</a></li>
+                    <li><a asp-controller="Home" asp-action="Abaout" class="nav-link px-3 text-white">Hakkımızda</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact" class="nav-link px-3 text-white">İletişim</a></li>
                 </ul>
 
                 <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
-                    <button type="button" class="btn btn-warning">Sign-up</button>
+                    <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
+                    <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
                 </div>
             </div>
         </div>

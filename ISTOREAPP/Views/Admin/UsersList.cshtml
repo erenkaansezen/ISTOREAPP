@@ -1,9 +1,12 @@
-﻿@model IEnumerable<IdentityUser>
+﻿@model IEnumerable<AppUser>
 @{
     Layout = "_LayoutAdmin";  // Varsayılan olarak yeni layout'u kullan
 }
 
-<button type="button" class="btn btn-success">Kullanıcı Ekle</button>
+<br />
+<h3> | Kullanıcı Yönetimi </h3>
+<hr />
+
 
 
 <table class="table table-sm table-bordered">
@@ -20,11 +23,14 @@
         {
             <tr>
                 <td>@user.Id</td>
-                <td>@user.UserName</td>
+                <td>@user.FullName</td>
                 <td>@user.Email</td>
                 <td>
-                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-controller="Admin" asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <form asp-action="Delete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline-block;">
+                        <input type="hidden" value="@user.Id" name="id">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </td>
             </tr>
         }

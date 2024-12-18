@@ -16,14 +16,15 @@ namespace ISTOREAPP.Models
                 context.Database.Migrate();
             }
             
-            var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
             var user = await userManager.FindByNameAsync(adminUser);
 
             if (user == null)
             {
-                user = new IdentityUser
+                user = new AppUser
                 {
+                    FullName = "Administrator",
                     UserName = adminUser,
                     Email = "admin@ıstore.com",
                     PhoneNumber = "1234567890",

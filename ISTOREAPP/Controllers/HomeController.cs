@@ -16,6 +16,10 @@ namespace ISTOREAPP.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
 
 
     }

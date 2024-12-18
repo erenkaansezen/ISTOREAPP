@@ -21,14 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Admin\UserCreate.cshtml">
+    <Content Update="Views\User\Register.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
