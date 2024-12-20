@@ -141,6 +141,7 @@ namespace ISTOREAPP.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> RoleEdit(AppRole model)
         {
             if (ModelState.IsValid)
