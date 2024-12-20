@@ -26,7 +26,7 @@ namespace ISTOREAPP.Models
                 {
                     FullName = "Administrator",
                     UserName = adminUser,
-                    Email = "admin@ıstore.com",
+                    Email = "admin@store.com",
                     PhoneNumber = "1234567890",
 
 

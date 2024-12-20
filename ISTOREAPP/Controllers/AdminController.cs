@@ -2,15 +2,18 @@
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Controllers
 {
     public class AdminController:Controller
     {
         private UserManager<AppUser> _userManager;
-        public AdminController(UserManager<AppUser> userManager)
+        private readonly RoleManager<AppRole> _roleManager;
+        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult UsersList()
         {
@@ -27,12 +30,14 @@ namespace ISTOREAPP.Controllers
 
             if (user != null)
             {
+                ViewBag.Roles = await _roleManager.Roles.Select(x => x.Name).ToListAsync();   
                 return View(
                      new EditViewModel 
                      {
                         Id = user.Id,
                         FullName = user.FullName,
                         Email = user.Email,
+                        SelectedRoles = await _userManager.GetRolesAsync(user) // kullanıcının ilişkilendirilmiş olduğu rolleri getirir
                      }
                     );
 
@@ -66,6 +71,11 @@ namespace ISTOREAPP.Controllers
                     }
                     if (result.Succeeded)
                     {
+                        await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user)); // kullanıcının bütün rollerini siler
+                        if (model.SelectedRoles != null) // EditViewModel üzerinden dönen SelectedRoles eğer null değilse seçilen rolleri user ile ilişkilendirir
+                        {
+                            await _userManager.AddToRolesAsync(user, model.SelectedRoles);
+                        }
                         return RedirectToAction("UsersList", "Admin");
                     }
                     foreach (IdentityError error in result.Errors)
@@ -89,5 +99,78 @@ namespace ISTOREAPP.Controllers
             return RedirectToAction("UsersList", "Admin");
 
         }
+        public IActionResult Rollers()
+        {
+            return View(_roleManager.Roles);
+        }
+        public IActionResult RoleCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleCreate(AppRole model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _roleManager.CreateAsync(model);
+                if (result.Succeeded) 
+                {
+                    return RedirectToAction("Rollers");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description); // hatayı ekrana çıkarır
+                }
+
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> RoleEdit(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role != null && role.Name != null)
+            {
+                ViewBag.Users = await _userManager.GetUsersInRoleAsync(role.Name);
+                return View(role);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleEdit(AppRole model)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = await _roleManager.FindByIdAsync(model.Id);
+
+                if (role != null)
+                {
+                    role.Name = model.Name;
+
+                    var result = await _roleManager.UpdateAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                    foreach (var err in result.Errors)
+                    {
+                        ModelState.AddModelError("", err.Description);
+                    }
+
+                    if (role.Name != null)
+                        ViewBag.Users = await _userManager.GetUsersInRoleAsync(role.Name);
+                }
+            }
+
+            return View(model);
+        }
+
+
     }
 }

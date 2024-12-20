@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ISTOREAPP.Controllers
@@ -16,6 +17,11 @@ namespace ISTOREAPP.Controllers
             return View();
         }
 
+        [Authorize]
+        public IActionResult Product()
+        {
+            return View();
+        }
         public IActionResult Register()
         {
             return View();

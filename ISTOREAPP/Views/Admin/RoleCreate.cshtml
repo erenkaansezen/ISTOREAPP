@@ -1,0 +1,19 @@
+﻿@model AppRole
+@{
+    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+}
+
+<br />
+<h2>Rol Ekleme</h2>
+<hr />
+
+<form  asp-action="RoleCreate" asp-controller="Admin" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Kaydet</button>
+</form>

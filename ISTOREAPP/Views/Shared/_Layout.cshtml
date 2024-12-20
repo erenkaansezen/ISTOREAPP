@@ -36,10 +36,26 @@
                     <li><a asp-controller="Home" asp-action="Contact" class="nav-link px-3 text-white">İletişim</a></li>
                 </ul>
 
-                <div class="text-end">
-                    <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
-                    <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
-                </div>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="d-flex align-items-center justify-content-end">
+                        <a class="nav-link text-white me-2">Merhaba, @User.Identity.Name</a>
+                        <a class="btn btn-outline-danger me-2" asp-controller="User" asp-action="Logout">LogOut</a>
+
+                        @if (User.IsInRole("Owner"))
+                        {
+                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Rollers">Management</a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-end">
+                        <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
+                        <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
+                    </div>
+                }
+
             </div>
         </div>
     </header>

@@ -25,5 +25,7 @@ namespace ISTOREAPP.ViewModels
 
         public string? ConfirmPassword { get; set; } = string.Empty;
 
+        public IList<string>? SelectedRoles { get; set; }
+
     }
 }

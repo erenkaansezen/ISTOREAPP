@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISTOREAPP.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20241218231656_IdentityMig")]
-    partial class IdentityMig
+    [Migration("20241219214424_usersandroles")]
+    partial class usersandroles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,6 @@ namespace ISTOREAPP.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")

@@ -67,19 +67,18 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center">IStore | A D M I N</h4>
+        <br />
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a asp-controller="Admin" asp-action="UsersList" class="nav-link active">Kullanıcı Yönetim</a>
+                <a asp-controller="Admin" asp-action="UsersList" class="btn btn-secondary btn-sm">Kullanıcı Yönetim</a>
             </li>
-
+            <br />
             <li class="nav-item">
-                <a href="#" class="nav-link">Settings</a>
+                <a asp-controller="Admin" asp-action="Rollers" class="btn btn-secondary btn-sm">Rol Yönetimi</a>
             </li>
+            <br />
             <li class="nav-item">
-                <a href="#" class="nav-link">Profile</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">Logout</a>
+                <a class="btn btn-secondary btn-sm" asp-controller="User" asp-action="Logout">LogOut</a>
             </li>
         </ul>
     </div>
