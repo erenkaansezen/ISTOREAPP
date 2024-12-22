@@ -124,44 +124,25 @@
                 <a class="btn btn-secondary btn-sm" asp-controller="User" asp-action="Logout">LogOut</a>
             </li>
             <br />
+            <li class="nav-item">
+                <a class="btn btn-secondary btn-sm" asp-controller="PageManagement" asp-action="HomePageManagement">LogOut</a>
+            </li>
+            <br />
 
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Sayfa İçerik Yönetimi
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <!-- Ana Sayfa Dropdown -->
-                    <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#" data-bs-toggle="dropdown" aria-expanded="false">Ana Sayfa</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Alt Menü 1</a></li>
-                            <li><a class="dropdown-item" href="#">Alt Menü 2</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Mağaza Sayfası Dropdown -->
-                    <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#" data-bs-toggle="dropdown" aria-expanded="false">Mağaza Sayfası</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Alt Menü 1</a></li>
-                            <li><a class="dropdown-item" href="#">Alt Menü 2</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- İletişim Sayfası Dropdown -->
-                    <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#" data-bs-toggle="dropdown" aria-expanded="false">İletişim Sayfası</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Alt Menü 1</a></li>
-                            <li><a class="dropdown-item" href="#">Alt Menü 2</a></li>
-                        </ul>
-                    </li>
+                    <li><a class="dropdown-item" asp-controller="PageManagement" asp-action="HomePageManagement">Ana Sayfa Yönetimi</a></li>
+                    <li><a class="dropdown-item" href="#">Mağaza Sayfası Yönetimi</a></li>
+                    <li><a class="dropdown-item" href="#">İletişim Sayfası Yönetimi</a></li>
                 </ul>
             </div>
-
-
         </ul>
     </div>
+
+
 
     <!-- Main Content -->
     <div class="main-content">

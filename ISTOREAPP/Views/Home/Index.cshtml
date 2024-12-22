@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Slider>
+@{
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
 
@@ -8,17 +9,22 @@
 <div class="row">
     <div class="col-md-12">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="background-color:green">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="~/img/Indırım1.jpg" class="d-block w-100" alt="...">
+            @if (Model != null)
+            {
+                <div class="carousel-inner">
+                    @foreach (var (slider, index) in Model.Select((value, i) => (value, i)))
+                    {
+                        var activeClass = index == 0 ? "active" : "";  // İlk öğeye 'active' sınıfı ekle
+                        <div class="carousel-item @activeClass">
+                            <img src="~/img/@slider.SliderImg" class="d-block w-100" alt="Slider Image">
+                        </div>
+                    }
                 </div>
-                <div class="carousel-item">
-                    <img src="~/img/Indırım2.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="~/img/Indırım3.jpg" class="d-block w-100" alt="...">
-                </div>
-            </div>
+            }
+            else
+            {
+                <p>Henüz slider eklenmemiş.</p>
+            }
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>

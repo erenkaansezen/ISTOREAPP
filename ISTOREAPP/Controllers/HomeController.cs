@@ -1,3 +1,5 @@
+using ISTOREAPP.Models;
+using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,16 +7,22 @@ namespace ISTOREAPP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly StoreContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(StoreContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            // Veritabanýndan Slider verilerini al
+            var sliders = _context.Sliders.ToList();
+
+
+
+            // Dönüþtürülen modeli view'a gönder
+            return View(sliders);
         }
 
         [Authorize]

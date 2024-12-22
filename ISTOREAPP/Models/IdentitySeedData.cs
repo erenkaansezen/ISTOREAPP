@@ -10,7 +10,7 @@ namespace ISTOREAPP.Models
 
         public static async void IdentityTestUser(IApplicationBuilder app)
         {
-            var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IdentityContext>();
+            var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<StoreContext>();
             if (context.Database.GetAppliedMigrations().Any()) 
             {
                 context.Database.Migrate();
@@ -19,6 +19,7 @@ namespace ISTOREAPP.Models
             var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
             var user = await userManager.FindByNameAsync(adminUser);
+
 
             if (user == null)
             {
@@ -32,6 +33,7 @@ namespace ISTOREAPP.Models
 
                 };
                 await userManager.CreateAsync(user, adminPassword);
+
             }
         }
     }

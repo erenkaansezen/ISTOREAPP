@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ISTOREAPP.Migrations
 {
     /// <inheritdoc />
-    public partial class usersandroles : Migration
+    public partial class NewMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,6 +51,52 @@ namespace ISTOREAPP.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: true),
+                    img = table.Column<string>(type: "TEXT", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sliders",
+                columns: table => new
+                {
+                    SliderImgId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SliderImgName = table.Column<string>(type: "TEXT", nullable: true),
+                    SliderImg = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sliders", x => x.SliderImgId);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +205,76 @@ namespace ISTOREAPP.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductCategory",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategory", x => new { x.CategoryId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductCategory_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductCategory_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name", "Url" },
+                values: new object[,]
+                {
+                    { 1, "Telefon", "telefon" },
+                    { 2, "Bilgisayar", "bilgisayar" },
+                    { 3, "Ekipman", "ekipman" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Description", "IsActive", "Name", "Price", "img" },
+                values: new object[,]
+                {
+                    { 1, "Güzel Telefon", true, "Samsung S24", 5000m, "Iphone15.jpg" },
+                    { 2, "Güzel Telefon", true, "Samsung S25", 6000m, "Iphone15.jpg" },
+                    { 3, "Güzel Telefon", true, "Samsung S26", 7000m, "Iphone15.jpg" },
+                    { 4, "Güzel Telefon", true, "Samsung S27", 8000m, "Iphone15.jpg" },
+                    { 5, "Güzel Telefon", true, "Samsung S28", 9000m, "Iphone15.jpg" },
+                    { 6, "Güzel Telefon", true, "Samsung S29", 10000m, "Iphone15.jpg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Sliders",
+                columns: new[] { "SliderImgId", "IsActive", "SliderImg", "SliderImgName" },
+                values: new object[,]
+                {
+                    { 1, true, "Indırım1.jpg", "Indırım1" },
+                    { 2, true, "Indırım2.jpg", "Indırım2" },
+                    { 3, true, "Indırım3.jpg", "Indırım3" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProductCategory",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 1, 3 },
+                    { 1, 4 },
+                    { 2, 5 },
+                    { 2, 6 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +311,17 @@ namespace ISTOREAPP.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Url",
+                table: "Categories",
+                column: "Url",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductCategory_ProductId",
+                table: "ProductCategory",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -214,10 +343,22 @@ namespace ISTOREAPP.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ProductCategory");
+
+            migrationBuilder.DropTable(
+                name: "Sliders");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

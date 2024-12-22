@@ -3,19 +3,16 @@ using System;
 using ISTOREAPP.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace ISTOREAPP.Migrations
 {
-    [DbContext(typeof(IdentityContext))]
-    [Migration("20241219214424_usersandroles")]
-    partial class usersandroles
+    [DbContext(typeof(StoreContext))]
+    partial class StoreContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -111,6 +108,134 @@ namespace ISTOREAPP.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("ISTOREAPP.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("img")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S24",
+                            Price = 5000m,
+                            img = "Iphone15.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S25",
+                            Price = 6000m,
+                            img = "Iphone15.jpg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S26",
+                            Price = 7000m,
+                            img = "Iphone15.jpg"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S27",
+                            Price = 8000m,
+                            img = "Iphone15.jpg"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S28",
+                            Price = 9000m,
+                            img = "Iphone15.jpg"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Güzel Telefon",
+                            IsActive = true,
+                            Name = "Samsung S29",
+                            Price = 10000m,
+                            img = "Iphone15.jpg"
+                        });
+                });
+
+            modelBuilder.Entity("ISTOREAPP.Models.Slider", b =>
+                {
+                    b.Property<int>("SliderImgId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SliderImg")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SliderImgName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SliderImgId");
+
+                    b.ToTable("Sliders");
+
+                    b.HasData(
+                        new
+                        {
+                            SliderImgId = 1,
+                            IsActive = true,
+                            SliderImg = "Indırım1.jpg",
+                            SliderImgName = "Indırım1"
+                        },
+                        new
+                        {
+                            SliderImgId = 2,
+                            IsActive = true,
+                            SliderImg = "Indırım2.jpg",
+                            SliderImgName = "Indırım2"
+                        },
+                        new
+                        {
+                            SliderImgId = 3,
+                            IsActive = true,
+                            SliderImg = "Indırım3.jpg",
+                            SliderImgName = "Indırım3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -215,6 +340,95 @@ namespace ISTOREAPP.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("StoreApp.Data.Concrete.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Url")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Telefon",
+                            Url = "telefon"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Bilgisayar",
+                            Url = "bilgisayar"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Ekipman",
+                            Url = "ekipman"
+                        });
+                });
+
+            modelBuilder.Entity("StoreApp.Data.Concrete.ProductCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoryId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 2
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 3
+                        },
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 4
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 5
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            ProductId = 6
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("ISTOREAPP.Models.AppRole", null)
@@ -262,6 +476,21 @@ namespace ISTOREAPP.Migrations
                     b.HasOne("ISTOREAPP.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StoreApp.Data.Concrete.ProductCategory", b =>
+                {
+                    b.HasOne("StoreApp.Data.Concrete.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ISTOREAPP.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
