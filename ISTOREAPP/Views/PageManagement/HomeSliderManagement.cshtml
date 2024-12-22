@@ -4,8 +4,23 @@
     Layout = "_LayoutAdmin";  // Varsayılan olarak yeni layout'u kullan
 
 }
+<style>
+    a {
+    color: black;
+}
+.img-hover {
+    transition: transform 0.3s ease; /* Yumuşak geçiş efekti */
+}
+
+.img-hover:hover {
+    transform: scale(3.0); /* Resmi 1.2 kat büyütme */
+}
+
+</style>
+<h2><a asp-controller="PageManagement" asp-action="HomePageManagement" class="black-link">Anasayfa</a> / Slider Yönetimi</h2>
+<hr>
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="background-color:green">
             @if (Model != null)
             {
@@ -33,7 +48,42 @@
             </button>
         </div>
     </div>
-    <div class="col-md-4">
-
-    </div>
 </div>
+<hr/>
+<br/>
+<table class="table table-sm table-bordered">
+        <colgroup>
+        <col style="width: 150px;">  <!-- Fotoğrafın genişliği -->
+        <col style="width: auto;">   <!-- Diğer kolonlar için otomatik genişlik -->
+        <col style="width: auto;">
+        <col style="width: 120px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
+    </colgroup>
+
+    <thead>
+        <tr>
+            <th>İçerik</th>
+            <th>İçerik Ad</th>
+            <th>Aktif mi ?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var slider in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/img/@slider.SliderImg" alt="Slider Image" class="d-block w-100 img-hover">
+                </td>
+                <td>@slider.SliderImgName</td>
+                <td>@(slider.IsActive ? "Evet" : "Hayır")</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="UserEdit" asp-route-id="@slider.SliderImgId" class="btn btn-primary btn-sm">Edit</a>
+                    <form asp-action="Delete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline-block;">
+                        <input type="hidden" value="@slider.SliderImgId" name="id">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

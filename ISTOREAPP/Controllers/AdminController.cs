@@ -8,12 +8,16 @@ namespace ISTOREAPP.Controllers
 {
     public class AdminController:Controller
     {
+        
         private UserManager<AppUser> _userManager;
+        private readonly StoreContext _context;
+
         private readonly RoleManager<AppRole> _roleManager;
-        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager,StoreContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context=context;
         }
         public IActionResult UsersList()
         {

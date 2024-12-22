@@ -15,7 +15,7 @@ namespace ISTOREAPP.Controllers
         }
         public IActionResult HomePageManagement()
         {
-            return View();
+            return View(_context.Sliders);
         }
         public IActionResult StorePageManagement()
         {
