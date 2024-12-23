@@ -46,9 +46,9 @@ namespace ISTOREAPP.Models
             modelBuilder.Entity<Category>().HasData(
                     new List<Category>()
                     {
-                    new() {Id=1,Name="Telefon",Url="telefon" },
-                    new() {Id=2,Name="Bilgisayar",Url="bilgisayar"},
-                    new() {Id=3,Name="Ekipman",Url="ekipman"} // extension method, slug dotnet
+                    new() {Id=1,Name="Telefon",Url="telefon",CategoryImg="telefon.jpg" },
+                    new() {Id=2,Name="Bilgisayar",Url="bilgisayar",CategoryImg ="computer.jpg"},
+                    new() {Id=3,Name="Ekipman",Url="ekipman",CategoryImg="ekipman.jpg"} // extension method, slug dotnet
                     }
                 );
 

@@ -1,0 +1,29 @@
+﻿@model Slider
+@{
+    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+}
+
+<br />
+<h2>Rol Ekleme</h2>
+<hr />
+
+<form asp-action="SliderCreate" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="SliderImgId" value="@Model?.SliderImgId" />
+
+    <div class="form-group">
+        <label for="SliderImgName">Slider Adı:</label>
+        <input type="text" name="SliderImgName" class="form-control" value="@Model?.SliderImgName" />
+    </div>
+
+    <div class="form-group">
+        <label for="imageFile">Görsel Yükle:</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="IsActive">Aktif mi?</label>
+        <input type="checkbox" name="IsActive" @(Model?.IsActive == true ? "checked" : "") />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>

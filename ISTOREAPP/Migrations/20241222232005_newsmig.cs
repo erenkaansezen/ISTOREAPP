@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ISTOREAPP.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMig : Migration
+    public partial class newsmig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +60,9 @@ namespace ISTOREAPP.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Url = table.Column<string>(type: "TEXT", nullable: false)
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    CategoryImg = table.Column<string>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,12 +233,12 @@ namespace ISTOREAPP.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name", "Url" },
+                columns: new[] { "Id", "CategoryImg", "IsActive", "Name", "Url" },
                 values: new object[,]
                 {
-                    { 1, "Telefon", "telefon" },
-                    { 2, "Bilgisayar", "bilgisayar" },
-                    { 3, "Ekipman", "ekipman" }
+                    { 1, "telefon.jpg", false, "Telefon", "telefon" },
+                    { 2, "computer.jpg", false, "Bilgisayar", "bilgisayar" },
+                    { 3, "ekipman.jpg", false, "Ekipman", "ekipman" }
                 });
 
             migrationBuilder.InsertData(

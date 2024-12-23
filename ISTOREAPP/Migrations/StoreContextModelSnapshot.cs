@@ -346,6 +346,12 @@ namespace ISTOREAPP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CategoryImg")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -365,18 +371,24 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 1,
+                            CategoryImg = "telefon.jpg",
+                            IsActive = false,
                             Name = "Telefon",
                             Url = "telefon"
                         },
                         new
                         {
                             Id = 2,
+                            CategoryImg = "computer.jpg",
+                            IsActive = false,
                             Name = "Bilgisayar",
                             Url = "bilgisayar"
                         },
                         new
                         {
                             Id = 3,
+                            CategoryImg = "ekipman.jpg",
+                            IsActive = false,
                             Name = "Ekipman",
                             Url = "ekipman"
                         });

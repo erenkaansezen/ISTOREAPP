@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISTOREAPP.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241221170822_NewMig")]
-    partial class NewMig
+    [Migration("20241222232005_newsmig")]
+    partial class newsmig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -349,6 +349,12 @@ namespace ISTOREAPP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CategoryImg")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -368,18 +374,24 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 1,
+                            CategoryImg = "telefon.jpg",
+                            IsActive = false,
                             Name = "Telefon",
                             Url = "telefon"
                         },
                         new
                         {
                             Id = 2,
+                            CategoryImg = "computer.jpg",
+                            IsActive = false,
                             Name = "Bilgisayar",
                             Url = "bilgisayar"
                         },
                         new
                         {
                             Id = 3,
+                            CategoryImg = "ekipman.jpg",
+                            IsActive = false,
                             Name = "Ekipman",
                             Url = "ekipman"
                         });

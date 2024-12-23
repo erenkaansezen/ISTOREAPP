@@ -13,6 +13,11 @@ namespace StoreApp.Data.Concrete
         public string Name { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty; // Telefon => telefon || Beyaz Eşya => beyaz-esya
 
+        public string? CategoryImg { get; set; }
+        public bool IsActive { get; set; }
+
+
+
         public List<Product> Products { get; set; } = new();
     }
     // productID CategoryId = 1 = 1

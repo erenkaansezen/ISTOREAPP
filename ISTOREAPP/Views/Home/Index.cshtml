@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Slider>
+﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
@@ -9,14 +9,14 @@
 <div class="row">
     <div class="col-md-12">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="background-color:green">
-            @if (Model != null)
+            @if (Model.Sliders != null)
             {
                 <div class="carousel-inner">
-                    @foreach (var (slider, index) in Model.Select((value, i) => (value, i)))
+                    @foreach (var (sliders, index) in Model.Sliders.Where(s => s.IsActive == true).Select((value, i) => (value, i)))
                     {
                         var activeClass = index == 0 ? "active" : "";  // İlk öğeye 'active' sınıfı ekle
                         <div class="carousel-item @activeClass">
-                            <img src="~/img/@slider.SliderImg" class="d-block w-100" alt="Slider Image">
+                            <img src="~/img/@sliders.SliderImg" class="d-block w-100" alt="Slider Image">
                         </div>
                     }
                 </div>
@@ -49,43 +49,69 @@
     <style>
         /* Hero Bölümü */
         .hero {
-            background: url('https://images.hepsiburada.net/banners/s/1/819-357/yilbasi_jenerik_acildi_app_banner133788253687882088.png/format:webp') no-repeat center center/cover;
-            color: black;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+        background: url('https://images.hepsiburada.net/banners/s/1/819-357/yilbasi_jenerik_acildi_app_banner133788253687882088.png/format:webp') no-repeat center center/cover;
+        color: black;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         }
 
         /* Kategoriler Kartları */
         .category-card {
-            transition: transform 0.3s ease;
+        transition: transform 0.3s ease;
         }
 
-            .category-card:hover {
-                transform: scale(1.05);
-            }
+        .category-card:hover {
+        transform: scale(1.05);
+        }
 
         /* Yatay Kaydırmalı Ürünler */
         .scroll-container {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding: 10px;
-            scroll-behavior: smooth;
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 10px;
+        scroll-behavior: smooth;
         }
 
-            .scroll-container .card {
-                flex: 0 0 auto;
-                width: 18rem;
-            }
+        .scroll-container .card {
+        flex: 0 0 auto;
+        width: 18rem;
+        }
 
     </style>
 </head>
 <body>
     <!-- Kategoriler -->
     <section class="container my-5">
+        <h2 class="text-center mb-4">Kategoriler</h2>
+        <div class="row">
+            @foreach (var category in Model.Categories)
+            {
+                @if(category.IsActive == true){
+                    <div class="col-md-4 mb-3">
+                        <div class="card category-card shadow-sm">
+                            <div>
+                                <img src="~/img/@category.CategoryImg" class="card-img-top" alt="@category.Name">
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">@category.Name</h5>
+                                <a href="#" class="btn btn-outline-success">Keşfet</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                                        
+                }
+
+            }
+        </div>
+    </section>
+@*     <section class="container my-5">
         <h2 class="text-center mb-4">Kategoriler</h2>
         <div class="row">
             <div class="col-md-4 mb-3">
@@ -116,7 +142,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> *@
+
+
 
     <!-- Hero Bölümü -->
     <section class="hero">
