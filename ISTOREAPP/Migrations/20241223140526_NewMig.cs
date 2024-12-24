@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ISTOREAPP.Migrations
 {
     /// <inheritdoc />
-    public partial class newsmig : Migration
+    public partial class NewMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,23 +67,6 @@ namespace ISTOREAPP.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: true),
-                    img = table.Column<string>(type: "TEXT", nullable: false),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,6 +191,30 @@ namespace ISTOREAPP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: true),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    img = table.Column<string>(type: "TEXT", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCategory",
                 columns: table => new
                 {
@@ -216,7 +223,7 @@ namespace ISTOREAPP.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductCategory", x => new { x.CategoryId, x.ProductId });
+                    table.PrimaryKey("PK_ProductCategory", x => new { x.ProductId, x.CategoryId });
                     table.ForeignKey(
                         name: "FK_ProductCategory_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -242,19 +249,6 @@ namespace ISTOREAPP.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Products",
-                columns: new[] { "Id", "Description", "IsActive", "Name", "Price", "img" },
-                values: new object[,]
-                {
-                    { 1, "Güzel Telefon", true, "Samsung S24", 5000m, "Iphone15.jpg" },
-                    { 2, "Güzel Telefon", true, "Samsung S25", 6000m, "Iphone15.jpg" },
-                    { 3, "Güzel Telefon", true, "Samsung S26", 7000m, "Iphone15.jpg" },
-                    { 4, "Güzel Telefon", true, "Samsung S27", 8000m, "Iphone15.jpg" },
-                    { 5, "Güzel Telefon", true, "Samsung S28", 9000m, "Iphone15.jpg" },
-                    { 6, "Güzel Telefon", true, "Samsung S29", 10000m, "Iphone15.jpg" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Sliders",
                 columns: new[] { "SliderImgId", "IsActive", "SliderImg", "SliderImgName" },
                 values: new object[,]
@@ -265,16 +259,16 @@ namespace ISTOREAPP.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductCategory",
-                columns: new[] { "CategoryId", "ProductId" },
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "IsActive", "Name", "Price", "img" },
                 values: new object[,]
                 {
-                    { 1, 1 },
-                    { 1, 2 },
-                    { 1, 3 },
-                    { 1, 4 },
-                    { 2, 5 },
-                    { 2, 6 }
+                    { 1, 1, "Güzel Telefon", true, "Samsung S24", 5000m, "Iphone15.jpg" },
+                    { 2, 1, "Güzel Telefon", true, "Samsung S25", 6000m, "Iphone15.jpg" },
+                    { 3, 1, "Güzel Telefon", true, "Samsung S26", 7000m, "Iphone15.jpg" },
+                    { 4, 1, "Güzel Telefon", true, "Samsung S27", 8000m, "Iphone15.jpg" },
+                    { 5, 2, "Güzel Telefon", true, "Samsung S28", 9000m, "Iphone15.jpg" },
+                    { 6, 2, "Güzel Telefon", true, "Samsung S29", 10000m, "Iphone15.jpg" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -321,9 +315,14 @@ namespace ISTOREAPP.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_ProductId",
+                name: "IX_ProductCategory_CategoryId",
                 table: "ProductCategory",
-                column: "ProductId");
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
@@ -357,10 +356,10 @@ namespace ISTOREAPP.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Categories");
         }
     }
 }

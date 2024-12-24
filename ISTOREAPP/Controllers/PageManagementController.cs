@@ -20,7 +20,8 @@ namespace ISTOREAPP.Controllers
         }
         public IActionResult StorePageManagement()
         {
-            return View();
+            var products = _context.Products.ToList();
+            return View(products);
         }
         public IActionResult ContactPageManagement()
         {
@@ -162,7 +163,7 @@ namespace ISTOREAPP.Controllers
                 var randomFileName = $"{Guid.NewGuid()}{extension}";
 
                 // Dosyanın kaydedileceği yolu oluştur
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", randomFileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Category", randomFileName);
 
                 // Dosyayı belirtilen konuma kaydet
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -183,12 +184,18 @@ namespace ISTOREAPP.Controllers
             else
             {
                 // Mevcut slider'ı güncelleme işlemi
-                var existingSlider = _context.Categories.FirstOrDefault(s => s.Id == model.Id);
-                if (existingSlider != null)
+                var existingCategory = _context.Categories.FirstOrDefault(s => s.Id == model.Id);
+                if (existingCategory != null)
                 {
-                    existingSlider.CategoryImg = model.CategoryImg;
-                    existingSlider.Name = model.Name;
-                    existingSlider.IsActive = model.IsActive;
+                    existingCategory.CategoryImg = model.CategoryImg;
+                    existingCategory.Name = model.Name;
+                    existingCategory.Url = model.Url;
+                    existingCategory.IsActive = model.IsActive;
+                }
+                // Fotoğraf varsa, güncelle
+                if (!string.IsNullOrEmpty(model.CategoryImg))
+                {
+                    existingCategory.CategoryImg = model.CategoryImg;
                 }
             }
 

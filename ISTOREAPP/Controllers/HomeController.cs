@@ -40,7 +40,10 @@ namespace ISTOREAPP.Controllers
         {
             return View();
         }
-
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
 
     }
 }

@@ -44,6 +44,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("products_in_category", "Store/StorePage/{category?}", new { controller = "Store", action = "StorePage" });
+
 
 IdentitySeedData.IdentityTestUser(app);
 

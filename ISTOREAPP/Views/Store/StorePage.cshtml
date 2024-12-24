@@ -1,0 +1,48 @@
+﻿@removeTagHelper Microsoft.AspNetCore.Mvc.Razor.TagHelpers.BodyTagHelper, Microsoft.AspNetCore.Mvc.Razor
+
+@model StoreViewModel
+
+@{
+    ViewData["Title"] = "Store Page";
+    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            <vc:categories-list />
+
+        </div>
+        <div class="col-md-9">
+            <br />
+            <h2 class="text-center mb-4">ISTORE | MAĞAZA</h2>
+            <hr />
+
+            <div class="scroll-container">
+                <div class="row">
+                    @if (Model?.products != null && Model.products.Any())
+                    {
+                        @foreach (var product in Model.products)
+                        {
+                            <div class="col-md-3 mb-4">
+                                <div class="card shadow-sm">
+                                    <img src="~/img/@product.img" class="card-img-top" alt="Ürün 2">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">@product.Name</h5>
+                                        <p class="text-success">@product.Price</p>
+                                        <a asp-controller="Home" asp-action="Product" class="btn btn-danger">Sepete Ekle</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Ürün bulunmamaktadır.</p>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

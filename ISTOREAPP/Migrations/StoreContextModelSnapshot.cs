@@ -116,11 +116,14 @@ namespace ISTOREAPP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("IsActive")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -136,12 +139,15 @@ namespace ISTOREAPP.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S24",
@@ -151,6 +157,7 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 2,
+                            CategoryId = 1,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S25",
@@ -160,6 +167,7 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 1,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S26",
@@ -169,6 +177,7 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 4,
+                            CategoryId = 1,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S27",
@@ -178,6 +187,7 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 5,
+                            CategoryId = 2,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S28",
@@ -187,6 +197,7 @@ namespace ISTOREAPP.Migrations
                         new
                         {
                             Id = 6,
+                            CategoryId = 2,
                             Description = "Güzel Telefon",
                             IsActive = true,
                             Name = "Samsung S29",
@@ -396,49 +407,26 @@ namespace ISTOREAPP.Migrations
 
             modelBuilder.Entity("StoreApp.Data.Concrete.ProductCategory", b =>
                 {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CategoryId", "ProductId");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasIndex("ProductId");
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("ProductCategory");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 1
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 3
-                        },
-                        new
-                        {
-                            CategoryId = 1,
-                            ProductId = 4
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 5
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            ProductId = 6
-                        });
+            modelBuilder.Entity("ISTOREAPP.Models.Product", b =>
+                {
+                    b.HasOne("StoreApp.Data.Concrete.Category", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -494,17 +482,33 @@ namespace ISTOREAPP.Migrations
 
             modelBuilder.Entity("StoreApp.Data.Concrete.ProductCategory", b =>
                 {
-                    b.HasOne("StoreApp.Data.Concrete.Category", null)
-                        .WithMany()
+                    b.HasOne("StoreApp.Data.Concrete.Category", "Category")
+                        .WithMany("ProductCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ISTOREAPP.Models.Product", null)
-                        .WithMany()
+                    b.HasOne("ISTOREAPP.Models.Product", "Product")
+                        .WithMany("ProductCategories")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ISTOREAPP.Models.Product", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
+            modelBuilder.Entity("StoreApp.Data.Concrete.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
