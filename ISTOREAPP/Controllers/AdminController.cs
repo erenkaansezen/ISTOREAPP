@@ -1,4 +1,5 @@
-﻿using ISTOREAPP.Models;
+﻿using ISTOREAPP.Data.Context;
+using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ISTOREAPP.Data.Context;
+using ISTOREAPP.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.Business.Identity
 {
     public class IdentitySeedData
     {
@@ -10,12 +12,12 @@ namespace ISTOREAPP.Models
 
         public static async void IdentityTestUser(IApplicationBuilder app)
         {
-            var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<StoreContext>();
-            if (context.Database.GetAppliedMigrations().Any()) 
-            {
-                context.Database.Migrate();
-            }
-            
+            //var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<StoreContext>();
+            //if (context.Database.GetAppliedMigrations().Any())
+            //{
+            //    context.Database.Migrate();
+            //}
+
             var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
             var user = await userManager.FindByNameAsync(adminUser);

@@ -1,33 +1,34 @@
-using ISTOREAPP.Models;
+using Business.Services;
+using ISTOREAPP.Data.Context;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly StoreContext _context;
+        private readonly SliderService _sliderService;
+        private readonly CategoryService _categoryService;
 
-        public HomeController(StoreContext context)
+        public HomeController(SliderService sliderService, CategoryService categoryService)
         {
-            _context = context;
+            _sliderService = sliderService;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult>Index()
         {
-            // Veritabanýndan Slider ve Category verilerini al
-            var sliders = _context.Sliders.ToList();
-            var categories = _context.Categories.ToList();
+            var sliders = await _sliderService.GetAllSlidersAsync();
+            var categories = await _categoryService.GetAllCategoriesAsync();
 
-            // HomeViewModel oluþtur ve verileri ekle
             var model = new HomeViewModel
             {
                 Sliders = sliders,
                 Categories = categories
             };
 
-            // View'a model gönder
             return View(model);
         }
 

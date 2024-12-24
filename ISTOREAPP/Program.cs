@@ -1,4 +1,7 @@
-using ISTOREAPP.Models;
+using Business.Services;
+using ISTOREAPP.Business.Identity;
+using ISTOREAPP.Data.Context;
+using ISTOREAPP.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<SliderService>(); // SliderService eklenmiþ
+builder.Services.AddScoped<CategoryService>(); // CategoryService eklenmiþ
 
-builder.Services.AddDbContext<StoreContext>(options => options.UseSqlite(builder.Configuration["ConnectionStrings:Dbconnection"]));
+builder.Services.AddDbContext<StoreContext>(options =>
+    options.UseSqlite(builder.Configuration["ConnectionStrings:Dbconnection"]));
 
-builder.Services.AddIdentity<AppUser,AppRole>().AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddIdentity<AppUser, AppRole>()
+    .AddEntityFrameworkStores<StoreContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -17,10 +24,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/User/AccessDenied";
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
-
-
-}
-);
+});
 
 var app = builder.Build();
 
@@ -28,7 +32,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -38,17 +41,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute("products_in_category", "Store/StorePage/{category?}", new { controller = "Store", action = "StorePage" });
-
+app.MapDefaultControllerRoute();
 
 IdentitySeedData.IdentityTestUser(app);
 
-
-
 app.Run();
+

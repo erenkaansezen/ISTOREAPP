@@ -1,4 +1,4 @@
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.ViewModels
 {
     public class ErrorViewModel
     {

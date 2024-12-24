@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StoreApp.Data.Concrete;
 
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.Data.Entities
 {
     public class Product
     {

@@ -1,4 +1,4 @@
-﻿using ISTOREAPP.Models;
+﻿using ISTOREAPP.Data.Context;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

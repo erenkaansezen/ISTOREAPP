@@ -1,5 +1,4 @@
-﻿using ISTOREAPP.Models;
-using StoreApp.Data.Concrete;
+﻿using ISTOREAPP.Data;
 
 public class CategoryViewModel
 {

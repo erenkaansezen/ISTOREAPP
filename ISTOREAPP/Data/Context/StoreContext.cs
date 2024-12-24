@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ISTOREAPP.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StoreApp.Data.Concrete;
 
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.Data.Context
 {
     public class StoreContext : IdentityDbContext<AppUser, AppRole, string>
     {
-        public StoreContext(DbContextOptions<StoreContext> options):base(options)
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
-            
+
         }
 
         public DbSet<Product> Products => Set<Product>();

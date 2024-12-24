@@ -1,8 +1,7 @@
-﻿using ISTOREAPP.Models;
+﻿using ISTOREAPP.Data.Context;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StoreApp.Data.Concrete;
 
 namespace ISTOREAPP.Components
 {

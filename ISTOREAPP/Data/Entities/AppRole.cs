@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.Data.Entities
 {
     public class AppRole : IdentityRole
     {

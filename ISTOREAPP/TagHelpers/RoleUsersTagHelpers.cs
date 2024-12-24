@@ -1,4 +1,4 @@
-﻿using ISTOREAPP.Models;
+﻿using ISTOREAPP.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ISTOREAPP.Models
+namespace ISTOREAPP.Data.Entities
 {
     public class Slider
     {
