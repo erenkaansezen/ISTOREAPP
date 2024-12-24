@@ -5,26 +5,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISTOREAPP.Controllers
+namespace ISTOREAPP.Web.Controllers
 {
-    public class AdminController:Controller
+    public class AdminController : Controller
     {
-        
+
         private UserManager<AppUser> _userManager;
         private readonly StoreContext _context;
 
         private readonly RoleManager<AppRole> _roleManager;
-        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager,StoreContext context)
+        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, StoreContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _context=context;
+            _context = context;
         }
         public IActionResult UsersList()
         {
             return View(_userManager.Users);
         }
-        public async  Task<IActionResult> UserEdit(string id)
+        public async Task<IActionResult> UserEdit(string id)
         {
             if (id == null)
             {
@@ -35,14 +35,14 @@ namespace ISTOREAPP.Controllers
 
             if (user != null)
             {
-                ViewBag.Roles = await _roleManager.Roles.Select(x => x.Name).ToListAsync();   
+                ViewBag.Roles = await _roleManager.Roles.Select(x => x.Name).ToListAsync();
                 return View(
-                     new EditViewModel 
+                     new EditViewModel
                      {
-                        Id = user.Id,
-                        FullName = user.FullName,
-                        Email = user.Email,
-                        SelectedRoles = await _userManager.GetRolesAsync(user) // kullanıcının ilişkilendirilmiş olduğu rolleri getirir
+                         Id = user.Id,
+                         FullName = user.FullName,
+                         Email = user.Email,
+                         SelectedRoles = await _userManager.GetRolesAsync(user) // kullanıcının ilişkilendirilmiş olduğu rolleri getirir
                      }
                     );
 
@@ -119,7 +119,7 @@ namespace ISTOREAPP.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _roleManager.CreateAsync(model);
-                if (result.Succeeded) 
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Rollers");
                 }

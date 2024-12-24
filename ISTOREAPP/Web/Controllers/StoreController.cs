@@ -2,7 +2,7 @@
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ISTOREAPP.Controllers
+namespace ISTOREAPP.Web.Controllers
 {
     public class StoreController : Controller
     {

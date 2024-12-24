@@ -4,7 +4,7 @@ using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ISTOREAPP.Controllers
+namespace ISTOREAPP.Web.Controllers
 {
     public class PageManagementController : Controller
     {
@@ -137,7 +137,7 @@ namespace ISTOREAPP.Controllers
         [HttpPost]
         public IActionResult CategoryEdit(int id)
         {
-            var category= _context.Categories.FirstOrDefault(s => s.Id == id);
+            var category = _context.Categories.FirstOrDefault(s => s.Id == id);
             if (category == null)
             {
                 return NotFound();

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ISTOREAPP.Controllers
+namespace ISTOREAPP.Web.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,7 +18,7 @@ namespace ISTOREAPP.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult>Index()
+        public async Task<IActionResult> Index()
         {
             var sliders = await _sliderService.GetAllSlidersAsync();
             var categories = await _categoryService.GetAllCategoriesAsync();
