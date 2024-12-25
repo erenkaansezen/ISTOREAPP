@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISTOREAPP.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241225004219_NewMg")]
-    partial class NewMg
+    [Migration("20241225224639_newMig")]
+    partial class newMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,9 +245,9 @@ namespace ISTOREAPP.Migrations
                             CategoryId = 0,
                             Description = "Güzel Telefon",
                             IsActive = true,
-                            Name = "Samsung S28",
+                            Name = "Macbook Pro",
                             Price = 9000m,
-                            img = "Iphone15.jpg"
+                            img = "MacbookPro.jpg"
                         },
                         new
                         {
@@ -255,9 +255,9 @@ namespace ISTOREAPP.Migrations
                             CategoryId = 0,
                             Description = "Güzel Telefon",
                             IsActive = true,
-                            Name = "Samsung S29",
+                            Name = "Macbook Air",
                             Price = 10000m,
-                            img = "Iphone15.jpg"
+                            img = "MacbookPro.jpg"
                         });
                 });
 

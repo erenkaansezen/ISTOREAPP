@@ -9,10 +9,10 @@ namespace ISTOREAPP.Components
 {
     public class CategoriesListViewComponent : ViewComponent
     {
-        private readonly IStoreRepository _storeRepository;
+        private readonly StoreContext _storeRepository;
 
 
-        public CategoriesListViewComponent(IStoreRepository storeRepository)
+        public CategoriesListViewComponent(StoreContext storeRepository)
         {
             _storeRepository = storeRepository;
         }

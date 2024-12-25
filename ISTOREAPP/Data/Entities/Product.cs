@@ -14,6 +14,7 @@ namespace ISTOREAPP.Data.Entities
 
         public bool IsActive { get; set; }
 
+
         public List<Category> Categories { get; set; } = new();
         public ICollection<ProductCategory> ProductCategories { get; set; }
 

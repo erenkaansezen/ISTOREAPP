@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ISTOREAPP.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMg : Migration
+    public partial class newMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -251,8 +251,8 @@ namespace ISTOREAPP.Migrations
                     { 2, 0, "Güzel Telefon", true, "Samsung S25", 6000m, "Iphone15.jpg" },
                     { 3, 0, "Güzel Telefon", true, "Samsung S26", 7000m, "Iphone15.jpg" },
                     { 4, 0, "Güzel Telefon", true, "Samsung S27", 8000m, "Iphone15.jpg" },
-                    { 5, 0, "Güzel Telefon", true, "Samsung S28", 9000m, "Iphone15.jpg" },
-                    { 6, 0, "Güzel Telefon", true, "Samsung S29", 10000m, "Iphone15.jpg" }
+                    { 5, 0, "Güzel Telefon", true, "Macbook Pro", 9000m, "MacbookPro.jpg" },
+                    { 6, 0, "Güzel Telefon", true, "Macbook Air", 10000m, "MacbookPro.jpg" }
                 });
 
             migrationBuilder.InsertData(

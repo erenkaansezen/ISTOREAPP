@@ -39,8 +39,8 @@ namespace ISTOREAPP.Data.Context
                     new() {Id=2, Name="Samsung S25", Price=6000,Description="Güzel Telefon" , img = "Iphone15.jpg",IsActive=true},
                     new() {Id=3, Name="Samsung S26", Price=7000,Description="Güzel Telefon", img = "Iphone15.jpg",IsActive=true},
                     new() {Id=4, Name="Samsung S27", Price=8000,Description="Güzel Telefon",img="Iphone15.jpg", IsActive = true},
-                    new() {Id=5, Name="Samsung S28", Price=9000,Description="Güzel Telefon",img="Iphone15.jpg", IsActive = true},
-                    new() {Id=6, Name="Samsung S29", Price=10000,Description="Güzel Telefon",img="Iphone15.jpg", IsActive = true},
+                    new() {Id=5, Name="Macbook Pro", Price=9000,Description="Güzel Telefon",img="MacbookPro.jpg", IsActive = true},
+                    new() {Id=6, Name="Macbook Air", Price=10000,Description="Güzel Telefon",img="MacbookPro.jpg", IsActive = true},
                      }
                 );
             modelBuilder.Entity<Category>().HasData(

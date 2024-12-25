@@ -25,7 +25,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 });
-builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
+//builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
 var app = builder.Build();
 
@@ -47,7 +47,10 @@ app.UseAuthorization();
 
 
 // products/telefon => kategori urun listesi
-app.MapControllerRoute("products_in_category", "StorePage/{categoryid?}", new { controller = "Store", action = "StorePage" });
+app.MapControllerRoute("products_in_category", "StorePage/{category?}", new { controller = "Store", action = "StorePage" });
+app.MapControllerRoute("products_in_categoryAdmin", "PageManagement/StorePageManagement/{category?}", new { controller = "PageManagementController", action = "StorePageManagement" });
+
+
 app.MapDefaultControllerRoute();
 
 

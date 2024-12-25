@@ -242,9 +242,9 @@ namespace ISTOREAPP.Migrations
                             CategoryId = 0,
                             Description = "Güzel Telefon",
                             IsActive = true,
-                            Name = "Samsung S28",
+                            Name = "Macbook Pro",
                             Price = 9000m,
-                            img = "Iphone15.jpg"
+                            img = "MacbookPro.jpg"
                         },
                         new
                         {
@@ -252,9 +252,9 @@ namespace ISTOREAPP.Migrations
                             CategoryId = 0,
                             Description = "Güzel Telefon",
                             IsActive = true,
-                            Name = "Samsung S29",
+                            Name = "Macbook Air",
                             Price = 10000m,
-                            img = "Iphone15.jpg"
+                            img = "MacbookPro.jpg"
                         });
                 });
 

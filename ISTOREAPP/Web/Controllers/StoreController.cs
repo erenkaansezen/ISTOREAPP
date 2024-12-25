@@ -1,6 +1,8 @@
 ﻿using ISTOREAPP.Data.Context;
+using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Web.Controllers
 {
@@ -12,45 +14,32 @@ namespace ISTOREAPP.Web.Controllers
         {
             _context = context;
         }
-        public IActionResult StorePage(string category, int page = 1)
+        public IActionResult StorePage(string category)
         {
             // Kategoriler listesini al
             var categories = _context.Categories.ToList();
 
-            // Kategoriye göre ürünleri al
-            var productsQuery = _context.Products.AsQueryable();
+            // Ürünleri kategoriye göre filtrele
+            var productsQuery = _context.Products
+                .Include(p => p.Categories)  // Categories ile ilişkiyi dahil et
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(category))
             {
-                productsQuery = productsQuery.Where(p => p.Name == category); // Kategoriye göre filtreleme
+                productsQuery = productsQuery.Where(p => p.Categories.Any(c => c.Url == category));
             }
-
-            // Sayfalama işlemi
-            var pageSize = 10; // Sayfa başına ürün sayısı
-            var totalItems = productsQuery.Count();
-            var products = productsQuery
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            var pageInfo = new PageInfo
-            {
-                ItemsPerPage = pageSize,
-                CurrentPage = page,
-                TotalItems = totalItems
-            };
 
             // ViewModel oluştur
             var viewModel = new StoreViewModel
             {
-                products = products,
+                products = productsQuery.ToList(), // Filtrelenmiş ürünler
                 Categories = categories,
-                PageInfo = pageInfo,
                 CurrentCategory = category
             };
 
             return View(viewModel);
         }
+
 
 
 
