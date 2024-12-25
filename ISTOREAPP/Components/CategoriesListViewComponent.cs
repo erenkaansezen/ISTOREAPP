@@ -1,4 +1,6 @@
 ﻿using ISTOREAPP.Data.Context;
+using ISTOREAPP.Data.Entities;
+
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,17 +9,18 @@ namespace ISTOREAPP.Components
 {
     public class CategoriesListViewComponent : ViewComponent
     {
-        private readonly StoreContext _db;
+        private readonly IStoreRepository _storeRepository;
 
-        public CategoriesListViewComponent(StoreContext context)
+
+        public CategoriesListViewComponent(IStoreRepository storeRepository)
         {
-            _db = context;
+            _storeRepository = storeRepository;
         }
 
         public IViewComponentResult Invoke()
         {
             ViewBag.SelectedCategory = RouteData?.Values["category"];
-            return View(_db.Categories.Select(c => new CategoryViewModel
+            return View(_storeRepository.Categories.Select(c => new CategoryViewModel
             {
                 Id = c.Id,
                 Name = c.Name,
