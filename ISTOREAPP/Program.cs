@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<SliderService>(); // SliderService eklenmiþ
 builder.Services.AddScoped<CategoryService>(); // CategoryService eklenmiþ
+builder.Services.AddScoped<ProductService>(); // ProductService eklenmiþ
+
 
 builder.Services.AddDbContext<StoreContext>(options =>
     options.UseSqlite(builder.Configuration["ConnectionStrings:Dbconnection"]));
@@ -48,7 +50,7 @@ app.UseAuthorization();
 
 // products/telefon => kategori urun listesi
 app.MapControllerRoute("products_in_category", "StorePage/{category?}", new { controller = "Store", action = "StorePage" });
-app.MapControllerRoute("products_in_categoryAdmin", "PageManagement/StorePageManagement/{category?}", new { controller = "PageManagementController", action = "StorePageManagement" });
+app.MapControllerRoute("products_in_category", "StorePageManagement/{category?}", new { controller = "PageManagement", action = "StorePageManagement" });
 
 
 app.MapDefaultControllerRoute();

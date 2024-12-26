@@ -17,15 +17,24 @@ namespace ISTOREAPP.Components
             _storeRepository = storeRepository;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string viewName)
         {
+            // Eğer viewName null veya boşsa, varsayılan olarak "default" kullan
+            viewName = string.IsNullOrEmpty(viewName) ? "default" : viewName;
+
+            // ViewBag.SelectedCategory'yi RouteData'dan al
             ViewBag.SelectedCategory = RouteData?.Values["category"];
-            return View(_storeRepository.Categories.Select(c => new CategoryViewModel
+
+            // Kategorileri al ve View'a ilet
+            var categories = _storeRepository.Categories.Select(c => new CategoryViewModel
             {
                 Id = c.Id,
                 Name = c.Name,
                 Url = c.Url
-            }).ToList());
+            }).ToList();
+
+            // Dinamik olarak belirlenen view'ı render et
+            return View(viewName, categories);
         }
     }
 }

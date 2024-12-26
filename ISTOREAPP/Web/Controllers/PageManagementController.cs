@@ -1,28 +1,69 @@
-﻿using ISTOREAPP.Data.Context;
+﻿using Business.Services;
+using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Web.Controllers
 {
     public class PageManagementController : Controller
     {
         private readonly StoreContext _context;
+        private readonly ProductService _productService;
 
-        public PageManagementController(StoreContext context)
+        public PageManagementController(StoreContext context, ProductService productService)
         {
             _context = context;
+            _productService = productService;
         }
         public IActionResult HomePageManagement()
         {
             return View();
         }
-        public IActionResult StorePageManagement()
+        public IActionResult StorePageManagement(string category)
         {
-            var products = _context.Products.ToList();
-            return View(products);
+            // Kategoriler listesini al
+            var categories = _context.Categories.ToList();
+
+            // Ürünleri kategoriye göre filtrele
+            var productsQuery = _context.Products
+                .Include(p => p.Categories)  // Categories ile ilişkiyi dahil et
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                productsQuery = productsQuery.Where(p => p.Categories.Any(c => c.Url == category));
+            }
+
+            // ViewModel oluştur
+            var viewModel = new StoreViewModel
+            {
+                products = productsQuery.ToList(), // Filtrelenmiş ürünler
+                Categories = categories,
+                CurrentCategory = category
+            };
+
+            return View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> StoreProductDelete(int id)
+        {
+            await _productService.DeleteProductAsync(id);
+            return RedirectToAction("StorePageManagement");
+
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> StoreIsActive(int id)
+        {
+            await _productService.IsActive(id);
+            return RedirectToAction("StorePageManagement");
+
+        }
+
         public IActionResult ContactPageManagement()
         {
             return View();

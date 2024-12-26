@@ -1,5 +1,6 @@
 ﻿@model StoreViewModel
 
+
 @{
     ViewData["Title"] = "Store Page";
     Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
@@ -8,6 +9,7 @@
 <div class="container my-5">
     <div class="row">
         <div class="col-md-3">
+            @await Component.InvokeAsync("CategoriesList", new { viewName = "default" })
             <vc:categories-list />
 
         </div>
@@ -20,12 +22,15 @@
                 <div class="row">
                     @if (Model?.products != null && Model.products.Any())
                     {
-                        @foreach (var product in Model.products)
+                        @foreach (var (product, index) in Model.products.Where(s => s.IsActive == true).Select((value, i) => (value, i)))
                         {
+                            var activeClass = index == 0 ? "active" : "";  // İlk öğeye 'active' sınıfı ekle
+
                             <div class="col-md-3 mb-4">
-                                <div class="card shadow-sm">
-                                    <img src="~/img/@product.img" class="card-img-top" alt="Ürün 2">
-                                    <div class="card-body text-center">
+                                <div class="card shadow-sm @activeClass">
+                                        <img src="~/img/@product.img" class="card-img-top" alt="Ürün 2">
+                     
+                                <div class="card-body text-center">
                                         <h5 class="card-title">@product.Name</h5>
                                         <p class="text-success">@product.Price</p>
                                         <a asp-controller="Home" asp-action="Product" class="btn btn-danger">Sepete Ekle</a>

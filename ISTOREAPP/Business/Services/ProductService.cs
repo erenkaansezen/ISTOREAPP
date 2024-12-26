@@ -72,5 +72,14 @@ namespace Business.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task IsActive (int id)
+        {
+            var products = _context.Products.FirstOrDefault(s => s.Id == id);
+
+
+            products.IsActive = !products.IsActive; // Durumu tersine çevir
+            await _context.SaveChangesAsync();
+        }
     }
 }

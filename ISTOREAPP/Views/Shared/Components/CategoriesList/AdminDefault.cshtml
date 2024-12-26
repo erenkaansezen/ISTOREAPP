@@ -1,0 +1,21 @@
+﻿@model IEnumerable<CategoryViewModel>
+
+<br />
+
+ <div class="d-grid gap-2">
+    <a class="btn btn-success">Ürün Ekle</a>
+    <br />
+    <h5>Ürün Kategorisi</h5>
+    <hr />
+        <a class="btn @(ViewBag.SelectedCategory == null ? "btn-secondary": "btn-outline-secondary")"
+       href="/StorePageManagement">Tüm Ürünler</a>
+
+        @foreach (var category in Model)
+        {
+            <a class="btn @(ViewBag.SelectedCategory == category.Url ? "btn-secondary": "btn-outline-secondary")"
+           asp-controller="PageManagement" asp-action="StorePageManagement" asp-route-category="@category.Url">
+                @category.Name
+            </a>
+        }
+    </div>
+
