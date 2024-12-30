@@ -1,4 +1,5 @@
 ﻿using ISTOREAPP.Data.Entities;
+using ISTOREAPP.Models;
 
 namespace ISTOREAPP.ViewModels
 {

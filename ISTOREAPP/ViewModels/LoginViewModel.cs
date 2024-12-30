@@ -4,6 +4,8 @@ namespace ISTOREAPP.ViewModels
 {
     public class LoginViewModel
     {
+        public int UserId { get; set; }
+
         [EmailAddress]
         public string Email { get; set; } = null!;
 

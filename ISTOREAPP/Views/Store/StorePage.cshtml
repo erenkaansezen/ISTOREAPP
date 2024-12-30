@@ -12,6 +12,7 @@
             @await Component.InvokeAsync("CategoriesList", new { viewName = "default" })
             <vc:categories-list />
 
+
         </div>
         <div class="col-md-9">
             <br />
@@ -33,9 +34,12 @@
                                 <div class="card-body text-center">
                                         <h5 class="card-title">@product.Name</h5>
                                         <p class="text-success">@product.Price</p>
-                                        <a asp-controller="Home" asp-action="Product" class="btn btn-danger">Sepete Ekle</a>
                                     </div>
                                 </div>
+                                <form asp-page="/Cart" method="post">
+                                    <input type="hidden" asp-for="@product.Id" name="Id">
+                                    <button type="submit" class="btn btn-outline-success btn-sm pull-right" style="float:right;">Sepete Ekle</button>
+                                </form>
                             </div>
                         }
                     }

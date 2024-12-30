@@ -1,0 +1,96 @@
+﻿@page "/Cart"
+@model CartModel
+
+<style>
+
+
+    .btn-sm {
+        width: 35px; /* Butonların genişliğini belirleyin */
+        height: 35px; /* Butonların yüksekliğini belirleyin */
+        font-size: 20px; /* Yazı boyutunu ayarlayın */
+        color:white;
+    }
+
+
+
+</style>
+
+<br />
+<h1>IStore | Ürün Sepeti</h1>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-7">
+        <table class="table table-bordered table-striped table-dark">
+            <colgroup>
+                <col style="width: 120px;">  <!-- Fotoğrafın genişliği -->
+            </colgroup>
+            <tbody>
+                @foreach (var item in Model?.Cart?.Items ?? Enumerable.Empty<CartItem>())
+                {
+                    <tr>
+                        <td>
+                            <img src="~/img/@item.Product.img" class="d-block w-100 img-hover" alt="Ürün 2">
+                        </td>
+                        <td>
+                            @item.Product.Name <br><br>
+                            <div class="d-flex align-items-center">
+                                <!-- Artı butonu -->
+                                <form method="post" asp-page="/Cart" class="d-inline">
+                                    <input type="hidden" name="Id" value="@item.Product.Id">
+                                    <button type="submit" class="btn  btn-sm me-2" name="action" value="increase">+</button>
+                                </form>
+
+                                <!-- Miktar -->
+                                <span>@item.Quantity</span>
+
+                                <!-- Eksi butonu -->
+                                <form method="post" asp-page-handler="Decrease" class="d-inline">
+                                    <input type="hidden" name="Id" value="@item.Product.Id">
+                                    <button type="submit" class="btn btn-sm">-</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+    <div class="col-md-4">
+        <table class="table  table-striped  table-dark">
+            <h5 style="text-align: center;">Siparişi Oluştur</h5>
+            <thead>
+                <tr>
+                    <th style="background-color:white;"></th>
+                    <th style="background-color:white; color:black">Adet Fiyatı</th>
+                    <th style="background-color:white; color:black">Toplam Ürün Fiyatı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model?.Cart?.Items ?? Enumerable.Empty<CartItem>())
+                {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td style="text-align: right;">@item.Product.Price ₺</td>
+                        <td style="text-align: right;">
+              
+                            @((item.Quantity * item.Product.Price).ToString()) ₺
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align: right;">
+                        Toplam Sepet Tutarı:  @Model?.Cart?.CalculateTotal() ₺
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            <a class="btn btn-dark w-100">Alışverişe Devam Et</a>
+        </div>
+    </div>
+</div>

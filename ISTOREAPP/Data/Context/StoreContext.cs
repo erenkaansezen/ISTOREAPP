@@ -16,6 +16,9 @@ namespace ISTOREAPP.Data.Context
         public DbSet<Category> Categories => Set<Category>();
 
         public DbSet<Slider> Sliders => Set<Slider>();
+        public DbSet<Order> Orders => Set<Order>();
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

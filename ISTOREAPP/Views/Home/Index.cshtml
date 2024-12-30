@@ -1,11 +1,12 @@
 ﻿@model HomeViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Store Page";
     Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
-
 }
-
 <br />
+<a class="nav-link text-black me-4 fs-3">Merhaba, @User.Identity.Name</a>
+<hr />
+
 <div class="row">
     <div class="col-md-12">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="background-color:green">
