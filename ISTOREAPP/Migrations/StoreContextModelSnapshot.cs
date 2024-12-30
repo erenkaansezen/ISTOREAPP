@@ -170,7 +170,7 @@ namespace ISTOREAPP.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AdressLine")
+                    b.Property<string>("AddressLine")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -178,7 +178,19 @@ namespace ISTOREAPP.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -191,7 +203,7 @@ namespace ISTOREAPP.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ISTOREAPP.Data.Entities.Order+OrderItem", b =>
+            modelBuilder.Entity("ISTOREAPP.Data.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -513,7 +525,7 @@ namespace ISTOREAPP.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ISTOREAPP.Data.Entities.Order+OrderItem", b =>
+            modelBuilder.Entity("ISTOREAPP.Data.Entities.OrderItem", b =>
                 {
                     b.HasOne("ISTOREAPP.Data.Entities.Order", "Order")
                         .WithMany("OrderItems")
