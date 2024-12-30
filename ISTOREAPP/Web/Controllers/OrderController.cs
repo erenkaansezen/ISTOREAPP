@@ -1,4 +1,6 @@
-﻿using ISTOREAPP.Data.Entities;
+﻿using Business.Services;
+using ISTOREAPP.Data.Entities;
+using ISTOREAPP.Helpers;
 using ISTOREAPP.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,51 +12,48 @@ namespace ISTOREAPP.Web.Controllers
         public Cart _cart;
         private readonly UserManager<AppUser> _userManager;
 
-        public OrderController(Cart cart, UserManager<AppUser> userManager)
+
+        public OrderController(Cart cartService, UserManager<AppUser> userManager)
         {
-            _cart = cart;
+            _cart = cartService;
             _userManager = userManager;
         }
+
         public IActionResult Checkout()
         {
-            return View(new OrderModel() { Cart = cart });
-        }
+            var user = _userManager.GetUserAsync(User).Result; // Oturum açmış kullanıcıyı alıyoruz.
+            var carted = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
 
-        [HttpPost]
-        public async IActionResult Checkout(OrderModel model)
-        {
-            if (_cart.Items.Count == 0)
+            var model = new OrderModel()
             {
-                ModelState.AddModelError("", "Sepetinizde ürün yok.");
-            }
+                Cart = carted,
 
+                User = user
+                // Kullanıcı bilgisini modelde set ediyoruz.
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Checkout(OrderModel model)
+        {
+            var carted = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
+
+            if (carted.Items.Count == 0)
+            {
+                ModelState.AddModelError("", "Sepetinizde ürün yok!");            
+            }
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-                var order = new Order
-                {
-                    User = model.User,
-                    Email = model.,
-                    City = model.City,
-                    Phone = model.Phone,
-                    AddressLine = model.AddressLine,
-                    OrderDate = DateTime.Now,
-                    OrderItems = cart.Items.Select(i => new OrderItem
-                    {
-                        ProductId = i.Product.Id,
-                        Price = (double)i.Product.Price,
-                        Quantity = i.Quantity
-                    }).ToList()
-                };
-                _orderRepository.SaveOrder(order);
-                cart.Clear();
-                return RedirectToPage("/Completed", new { OrderId = order.Id });
+                return RedirectToPage("/Completed");
             }
             else
             {
-                model.Cart = cart;
-                return View(model);
+                return RedirectToPage("/StorePage");
+
             }
+
         }
+
+
     }
 }

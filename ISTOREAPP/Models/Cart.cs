@@ -29,7 +29,10 @@ namespace ISTOREAPP.Models
             {
                 //Eğer sepette bir ürün yoksa sepete seçilen ürünü ekler
                 item.Quantity -= 1;
-
+                if (item.Quantity < 1)
+                {
+                    Items.Remove(item);  // Sepetten çıkar
+                }
             }
 
         }
@@ -48,6 +51,11 @@ namespace ISTOREAPP.Models
         {
             //Sepeti komple temizler
             Items.Clear();
+        }
+
+        public static implicit operator Cart(List<CartItem> v)
+        {
+            throw new NotImplementedException();
         }
     }
     public class CartItem

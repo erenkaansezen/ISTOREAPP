@@ -26,18 +26,32 @@ namespace ISTOREAPP.Pages
         {
             Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
-        public IActionResult OnPost(int Id) 
+        public IActionResult OnPost(int Id)
         {
             var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
-            if (product != null) 
+            if (product != null)
             {
                 Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-                Cart?.AddItem(product, 1);
+                Cart.AddItem(product, 1);
                 HttpContext.Session.SetJson("cart", Cart);
 
             }
 
             return RedirectToAction("telefon", "StorePage");
+        }
+
+        public IActionResult OnAddItem(int Id)
+        {
+            var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
+            if (product != null)
+            {
+                Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
+                Cart.AddItem(product, 1);
+                HttpContext.Session.SetJson("cart", Cart);
+
+            }
+
+            return RedirectToPage("/Cart");
         }
         public IActionResult OnPostDecrease(int Id,string action)
         {
@@ -46,7 +60,7 @@ namespace ISTOREAPP.Pages
             {
                 Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
 
-                Cart?.ItemDecrease(product, 1);
+                Cart.ItemDecrease(product, 1);
                 HttpContext.Session.SetJson("cart", Cart);
 
             }

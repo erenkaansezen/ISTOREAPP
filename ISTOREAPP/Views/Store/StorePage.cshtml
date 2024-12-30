@@ -31,15 +31,19 @@
                                 <div class="card shadow-sm @activeClass">
                                         <img src="~/img/@product.img" class="card-img-top" alt="Ürün 2">
                      
-                                <div class="card-body text-center">
+                                    <div class="card-body text-center">
                                         <h5 class="card-title">@product.Name</h5>
                                         <p class="text-success">@product.Price</p>
                                     </div>
+                                    <div class="card-body ">
+                                        <form asp-page="/Cart" asp-page-handler="AddItem" method="post" class="d-flex justify-content-center">
+                                            <input type="hidden" asp-for="@product.Id" name="Id">
+                                            <button type="submit" class="btn btn-outline-success btn-sm" style="float:right;">Sepete Ekle</button>
+                                        </form>
+                                    </div>
+
                                 </div>
-                                <form asp-page="/Cart" method="post">
-                                    <input type="hidden" asp-for="@product.Id" name="Id">
-                                    <button type="submit" class="btn btn-outline-success btn-sm pull-right" style="float:right;">Sepete Ekle</button>
-                                </form>
+
                             </div>
                         }
                     }

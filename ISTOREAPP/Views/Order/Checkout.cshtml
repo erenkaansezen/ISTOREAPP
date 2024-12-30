@@ -1,0 +1,55 @@
+﻿@model OrderModel
+@{
+    ViewData["Title"] = "Store Page";
+    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+}
+<h1>CheckOut</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="mb-3">Sipariş Detayı</h4>
+        <form method="post" asp-action="Checkout">
+            <div class="row">
+                <div class="col">
+                    <label asp-for="@Model.User.UserName"></label>
+                    <input asp-for="@Model.User.UserName" class="form-control" value="@Model.User.UserName" disabled />
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.User.Email"></label>
+                    <input asp-for="@Model.User.Email" class="form-control" value="@Model.User.Email" disabled />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    <label asp-for="@Model.City"></label>
+                    <input asp-for="@Model.City" class="form-control" />
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.User.PhoneNumber"></label>
+                    <input asp-for="@Model.City" class="form-control" value="@Model.User.PhoneNumber" disabled/>
+                </div>
+            </div>
+            <br />
+            <div class="mb-3">
+                <label asp-for="@Model.AdressLine"></label>
+                <input asp-for="@Model.AdressLine" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primay">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h4 class="mb-3">Sipariş Özeti</h4>
+        <ul class="list-group mb-3" >
+            @foreach(var item in Model.Cart.Items)
+            {
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6>@item.Product.Name</h6> x @item.Quantity
+                    </div>
+                    <span>@item.Product.Price</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿using ISTOREAPP.Data.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ISTOREAPP.Models
 {
@@ -10,8 +11,7 @@ namespace ISTOREAPP.Models
 
         public string City { get; set; }
         public string AdressLine { get; set; }
-
-        public List<OrderItem> OrderItems { get; set; } = new();
+        [BindNever]
         public Cart Cart { get; set; } = new();
     }
 }
