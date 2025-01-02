@@ -29,11 +29,11 @@
 
                             <div class="col-md-3 mb-4">
                                 <div class="card shadow-sm @activeClass">
-                                        <img src="~/img/@product.img" class="card-img-top" alt="Ürün 2">
+                                        <img src="~/img/Product/@product.img" class="card-img-top" alt="Ürün 2">
                      
                                     <div class="card-body text-center">
                                         <h5 class="card-title">@product.Name</h5>
-                                        <p class="text-success">@product.Price</p>
+                                        <p class="text-success">@product.Price ₺</p>
                                     </div>
                                     <div class="card-body ">
                                         <form asp-page="/Cart" asp-page-handler="AddItem" method="post" class="d-flex justify-content-center">

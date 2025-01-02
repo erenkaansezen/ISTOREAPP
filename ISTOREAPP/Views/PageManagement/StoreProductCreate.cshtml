@@ -1,0 +1,43 @@
+﻿
+@model Product
+@{
+    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+}
+
+<br />
+<h2>Category Ekleme</h2>
+<hr />
+
+<form asp-action="StoreProductCreate" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="SliderImgId" value="@Model?.Id" />
+
+    <div class="form-group">
+        <label for="Name">Ürün Adı</label>
+        <input type="text" name="Name" class="form-control" value="@Model?.Name" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Ürün Açıklaması</label>
+        <input type="text" name="Description" class="form-control" value="@Model?.Description" />
+    </div>
+    <div class="form-group">
+        <label for="CategoryId">Kategori Id</label>
+        <input type="text" name="CategoryId" class="form-control" value="@Model?.CategoryId" />
+    </div>
+
+    <div class="form-group">
+        <label for="imageFile">Ürün Görseli</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Price">Ürün Fiyatı:</label>
+        <input type="text" name="Price" class="form-control" value="@Model?.Price" />
+    </div>
+
+    <div class="form-group">
+        <label for="IsActive">Aktif mi?</label>
+        <input type="checkbox" name="IsActive" @(Model?.IsActive == true ? "checked" : "") />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>

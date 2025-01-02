@@ -42,6 +42,11 @@ namespace Business.Services
                                  .ToListAsync();
         }
 
+        public async Task AddProductCategoryAsync(ProductCategory productCategory)
+        {
+            await _context.ProductCategory.AddAsync(productCategory);
+            await _context.SaveChangesAsync();
+        }
 
         /// Yeni bir ürün ekler.
 
@@ -79,6 +84,14 @@ namespace Business.Services
 
 
             products.IsActive = !products.IsActive; // Durumu tersine çevir
+            await _context.SaveChangesAsync();
+        }
+        public async Task Top(int id)
+        {
+            var products = _context.Products.FirstOrDefault(s => s.Id == id);
+
+
+            products.top = !products.top; // Durumu tersine çevir
             await _context.SaveChangesAsync();
         }
     }

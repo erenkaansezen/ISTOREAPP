@@ -16,7 +16,33 @@
         .img-hover:hover {
             transform: scale(3.0); /* Resmi 1.2 kat büyütme */
         }
+    /* Butonları dikey hizalamak için button-container sınıfı */
+    .button-container {
+        display: flex;
+        flex-direction: column; /* Butonları dikey olarak hizalar */
+        gap: 10px; /* Butonlar arasındaki boşluk */
+        width: 100%; /* Container genişliğini tam ekran yapar */
+        max-width: 400px; /* Maksimum genişlik ayarlandığında, butonlar büyük ekranlarda da düzgün görünür */
+        text-align: center; /* Butonları ortalar */
+    }
 
+    /* Butonlara stil ekledik */
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%; /* Butonlar tüm genişliği kaplar */
+    }
+
+        /* Butona hover efekti */
+        button:hover {
+            background-color: #0056b3;
+        }
 </style>
 <h2>Mağaza Sayfası Yönetimi</h2>
 <hr>
@@ -50,28 +76,51 @@
                     {
                         <tr>
                             <td>
-                                <img src="~/img/@product.img" alt="Product Image" class="d-block w-100 img-hover">
+                                <img src="~/img/Product/@product.img" alt="Product Image" class="d-block w-100 img-hover">
                             </td>
                             <td>@product.Name</td>
                             <td>@(product.IsActive ? "Evet" : "Hayır")</td>
 
                             <td>
+                            <form asp-action="StoreProductEdit" method="post" style="display: inline;">
+                                <input type="hidden" value="@product.Id" name="id">
+                                <button type="submit" class="btn btn-dark  button-container text-white btm-sm ">Düzenle</button>
+                            </form>
+                            <br />
                             <form asp-action="StoreIsActive" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="@product.Id" />
                                     @if (product.IsActive)
                                     {
-                                        <button type="submit" class="btn btn-warning btn-sm">Deaktif Et</button>
+                                    <button type="submit" class="btn btn-dark button-container btm-sm ">Deaktif Et</button>
                                         
                                     }
                                     else
                                     {
-                                        <button type="submit" class="btn btn-success btn-sm">Aktif Et</button>
+                                    <button type="submit" class="btn btn-dark button-container">Aktif Et</button>
                                     }
-                                </form>
+                            </form>
+                            <br />
+                            <form asp-action="StoreTop" method="post" style="display: inline;">
+                                <input type="hidden" name="id" value="@product.Id" />
+                                @if (product.top)
+                                {
+                                    <button type="submit" class="btn btn-dark button-container btm-sm ">Öne Çıkarma</button>
+
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-dark button-container btm-sm">Öne Çıkar</button>
+                                }
+                            </form>
+                            <br />
+
+
                             <form asp-action="StoreProductDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
                                     <input type="hidden" value="@product.Id" name="id">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" class="btn btn-danger  button-container">Delete</button>
                             </form>
+
+
                             </td>
                         </tr>
                     }

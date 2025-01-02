@@ -3,6 +3,7 @@ using System;
 using ISTOREAPP.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISTOREAPP.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250101234110_NewMig")]
+    partial class NewMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -257,9 +260,6 @@ namespace ISTOREAPP.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("top")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
@@ -273,8 +273,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Samsung S24",
                             Price = 5000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         },
                         new
                         {
@@ -284,8 +283,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Samsung S25",
                             Price = 6000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         },
                         new
                         {
@@ -295,8 +293,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Samsung S26",
                             Price = 7000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         },
                         new
                         {
@@ -306,8 +303,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Samsung S27",
                             Price = 8000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         },
                         new
                         {
@@ -317,8 +313,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Macbook Pro",
                             Price = 9000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         },
                         new
                         {
@@ -328,8 +323,7 @@ namespace ISTOREAPP.Migrations
                             IsActive = true,
                             Name = "Macbook Air",
                             Price = 10000.0,
-                            img = "telefon.jpg",
-                            top = false
+                            img = "telefon.jpg"
                         });
                 });
 

@@ -11,9 +11,12 @@ namespace ISTOREAPP.Web.Controllers
     {
         private readonly SliderService _sliderService;
         private readonly CategoryService _categoryService;
+        private readonly ProductService _productService;
 
-        public HomeController(SliderService sliderService, CategoryService categoryService)
+
+        public HomeController(SliderService sliderService, CategoryService categoryService, ProductService productService)
         {
+            _productService = productService;
             _sliderService = sliderService;
             _categoryService = categoryService;
         }
@@ -22,11 +25,13 @@ namespace ISTOREAPP.Web.Controllers
         {
             var sliders = await _sliderService.GetAllSlidersAsync();
             var categories = await _categoryService.GetAllCategoriesAsync();
+            var products = await _productService.GetAllProductsAsync();
 
             var model = new HomeViewModel
             {
                 Sliders = sliders,
-                Categories = categories
+                Categories = categories,
+                Products = products
             };
 
             return View(model);

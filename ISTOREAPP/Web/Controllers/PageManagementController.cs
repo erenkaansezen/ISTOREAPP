@@ -48,6 +48,78 @@ namespace ISTOREAPP.Web.Controllers
             return View(viewModel);
         }
 
+        //Product İşlemleri
+        public IActionResult StoreProductCreate(int id)
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> StoreProductCreate(Product productmodel, ProductCategory categorymodel ,IFormFile imageFile)
+        {
+            if (imageFile != null)
+            {
+                // Dosya uzantısını al
+                var extension = Path.GetExtension(imageFile.FileName);
+
+                // Benzersiz dosya adı oluştur
+                var randomFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Dosyanın kaydedileceği yolu oluştur
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Product", randomFileName);
+
+                // Dosyayı belirtilen konuma kaydet
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Slider modeline görsel adını ata
+                productmodel.img = randomFileName;
+            }
+
+            if (productmodel.img != null)
+            {
+                var product = new Product()
+                {
+                    Name = productmodel.Name,
+                    Description = productmodel.Description,
+                    Price = productmodel.Price,
+                    CategoryId = productmodel.CategoryId,
+                    img = productmodel.img,
+                    IsActive = productmodel.IsActive,
+                };
+                await _productService.AddProductAsync(product);
+
+                var ProdcutCategory = new ProductCategory()
+                {
+                    CategoryId = productmodel.CategoryId,
+                    ProductId = product.Id,
+                };
+                await _context.ProductCategory.AddAsync(ProdcutCategory);
+               
+                
+                await _context.SaveChangesAsync();
+
+
+            }
+            //else
+            //{
+            //    // Mevcut slider'ı güncelleme işlemi
+            //    var existingSlider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == model.SliderImgId);
+            //    if (existingSlider != null)
+            //    {
+            //        existingSlider.SliderImg = model.SliderImg;
+            //        existingSlider.SliderImgName = model.SliderImgName;
+            //        existingSlider.IsActive = model.IsActive;
+            //    }
+            //}
+
+            // Değişiklikleri 
+            // Listeleme sayfasına yönlendir
+            return RedirectToAction("HomeSliderManagement");
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> StoreProductDelete(int id)
         {
@@ -56,10 +128,19 @@ namespace ISTOREAPP.Web.Controllers
 
         }
         
+
+
         [HttpPost]
         public async Task<IActionResult> StoreIsActive(int id)
         {
             await _productService.IsActive(id);
+            return RedirectToAction("StorePageManagement");
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> StoreTop(int id)
+        {
+            await _productService.Top(id);
             return RedirectToAction("StorePageManagement");
 
         }
@@ -138,7 +219,7 @@ namespace ISTOREAPP.Web.Controllers
                 var randomFileName = $"{Guid.NewGuid()}{extension}";
 
                 // Dosyanın kaydedileceği yolu oluştur
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", randomFileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Slider", randomFileName);
 
                 // Dosyayı belirtilen konuma kaydet
                 using (var stream = new FileStream(path, FileMode.Create))
