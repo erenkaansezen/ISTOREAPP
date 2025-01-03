@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<CategoryViewModel>
+    
     <br />
     <br />
     <h5>Ürün Kategorisi</h5>
     <hr />
     <div class="d-grid gap-2">
-        <a class="btn @(ViewBag.SelectedCategory == null ? "btn-secondary": "btn-outline-secondary")"
+    <a class="btn @(ViewBag.SelectedCategory == null ? "btn-outline-secondary": "btn-outline-secondary")"
        href="/StorePage">Anasayfa</a>
 
         @foreach (var category in Model)

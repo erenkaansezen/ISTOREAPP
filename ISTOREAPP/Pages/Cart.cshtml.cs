@@ -3,6 +3,7 @@ using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.Helpers;
 using ISTOREAPP.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace ISTOREAPP.Pages
 {
     public class CartModel : PageModel
     {
+        
         private StoreContext _storeContext;
         private ProductService _productService;
         public CartModel( ProductService productService, StoreContext storeContext,Cart cartService)
@@ -26,6 +28,7 @@ namespace ISTOREAPP.Pages
         {
             Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
+
         public IActionResult OnPost(int Id)
         {
             var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
@@ -37,7 +40,7 @@ namespace ISTOREAPP.Pages
 
             }
 
-            return RedirectToAction("telefon", "StorePage");
+            return RedirectToAction("StorePage", "Store");
         }
 
         public IActionResult OnAddItem(int Id)

@@ -35,6 +35,8 @@ builder.Services.AddDistributedMemoryCache(); // Session'ý Memory Üzerinde Kulla
 
 builder.Services.AddSession(); // Session'ý Aktif Eder
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

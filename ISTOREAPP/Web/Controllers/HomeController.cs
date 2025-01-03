@@ -37,7 +37,7 @@ namespace ISTOREAPP.Web.Controllers
             return View(model);
         }
 
-        [Authorize]
+        
         public IActionResult Product()
         {
             return View();

@@ -1,12 +1,14 @@
 ﻿using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Web.Controllers
 {
+    [Authorize(Roles = "Admin,Owner")]
     public class AdminController : Controller
     {
 
@@ -20,6 +22,8 @@ namespace ISTOREAPP.Web.Controllers
             _roleManager = roleManager;
             _context = context;
         }
+
+
         public IActionResult UsersList()
         {
             return View(_userManager.Users);

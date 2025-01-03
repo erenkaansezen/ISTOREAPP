@@ -1,6 +1,7 @@
 ﻿using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,9 @@ namespace ISTOREAPP.Web.Controllers
         {
             _context = context;
         }
-        public IActionResult StorePage(string category)
+
+        [Authorize]
+        public IActionResult StorePage(string category, string searchTerm)
         {
             // Kategoriler listesini al
             var categories = _context.Categories.ToList();
@@ -24,9 +27,17 @@ namespace ISTOREAPP.Web.Controllers
                 .Include(p => p.Categories)  // Categories ile ilişkiyi dahil et
                 .AsQueryable();
 
+            // Kategoriye göre filtreleme
             if (!string.IsNullOrEmpty(category))
             {
                 productsQuery = productsQuery.Where(p => p.Categories.Any(c => c.Url == category));
+            }
+
+            // Arama terimine göre filtreleme (isime göre)
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                // EF.Functions.Like kullanarak LIKE benzeri arama yapıyoruz
+                productsQuery = productsQuery.Where(p => EF.Functions.Like(p.Name, "%" + searchTerm + "%"));
             }
 
             // ViewModel oluştur
@@ -37,8 +48,13 @@ namespace ISTOREAPP.Web.Controllers
                 CurrentCategory = category
             };
 
+            // Arama terimini ViewBag'e ekle
+            ViewBag.SearchTerm = searchTerm;
+
             return View(viewModel);
         }
+
+
 
 
 

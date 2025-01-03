@@ -1,0 +1,70 @@
+﻿
+<nav>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap" /></svg>
+                </a>
+                <span class="fs-4">IStore</span>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mx-auto">
+                    <li>
+                        <a asp-controller="Home" asp-action="Index"
+                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Home" ? "text-secondary" : "text-white")">
+                            Anasayfa
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Store" asp-action="StorePage"
+                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Store" ? "text-secondary" : "text-white")">
+                            Mağaza
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="AboutUs"
+                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "AboutUs" ? "text-secondary" : "text-white")">
+                            Hakkımızda
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Contact"
+                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Contact" ? "text-secondary" : "text-white")">
+                            İletişim
+                        </a>
+                    </li>
+
+
+                </ul>
+
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+
+                    <div class="d-flex align-items-center justify-content-end">
+
+                        <vc:cart-summary />
+
+
+
+                        <a class="btn btn-outline-danger me-2" asp-controller="User" asp-action="Logout">LogOut</a>
+
+                        @if (User.IsInRole("Owner"))
+                        {
+                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Rollers">Management</a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-end">
+                        <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
+                        <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </header>
+
+</nav>

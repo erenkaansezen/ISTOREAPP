@@ -1,12 +1,23 @@
 ﻿@model Cart
 
-
 @if (Model?.Items.Count() > 0)
 {
-    <a href="/Cart" class="btn btn-sm btn-warning">Sepete Git</a>
 
     <small class="text-white">
-        @Model?.Items.Sum(i => i.Quantity) adet ürün.
-        [@Model?.CalculateTotal()]
+
+        <a class="bi bi-cart fs-4 nav-link me-3 text-white" asp-page="/Cart">
+            Sepetim (@ViewData["TotalItems"])
+        </a> 
+
+    </small>
+}
+else
+{
+    <small class="text-white">
+
+        <a class="bi bi-cart fs-4 nav-link me-3 text-white" asp-page="/Cart">
+            Sepetim (0)
+        </a>
+
     </small>
 }

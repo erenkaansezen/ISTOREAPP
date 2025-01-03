@@ -21,83 +21,47 @@
     <meta name="theme-color" content="#7952b3">
 </head>
 <body>
-    <header class="p-3 bg-dark text-white">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap" /></svg>
-                </a>
-                <span class="fs-4">IStore</span>
-
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 mx-auto">
-                    <li>
-                        <a asp-controller="Home" asp-action="Index"
-                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Home" ? "text-secondary" : "text-white")">
-                            Anasayfa
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Store" asp-action="StorePage"
-                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Store" ? "text-secondary" : "text-white")">
-                            Mağaza
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Home" asp-action="AboutUs"
-                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "AboutUs" ? "text-secondary" : "text-white")">
-                            Hakkımızda
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Home" asp-action="Contact"
-                           class="nav-link px-3 @(ViewData["ActivePage"]?.ToString() == "Contact" ? "text-secondary" : "text-white")">
-                            İletişim
-                        </a>
-                    </li>
-
-
-                </ul>
-
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-
-                    <div class="d-flex align-items-center justify-content-end">
-
-                        <a class="bi bi-cart fs-4 nav-link me-3 text-white" asp-page="/Cart">
-                            Sepetim
-                        </a>
-
-
-                        <a class="btn btn-outline-danger me-2" asp-controller="User" asp-action="Logout">LogOut</a>
-
-                        @if (User.IsInRole("Owner"))
-                        {
-                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Rollers">Management</a>
-                        }
-                    </div>
-                }
-                else
-                {
-                    <div class="text-end">
-                        <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
-                        <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
-                    </div>
-                }
-
-            </div>
-        </div>
-    </header>
+    <partial name="_Navbar" />
     <div class="container">
         <main role="main" class="pb-3" style="color:black">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - ISTORE - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <div class="b-example-divider"></div>
+
+    <!-- Footer -->
+    <footer class="bg-body-tertiary">
+        <!-- Grid container -->
+        <div class="container p-4">
+            <!--Grid row-->
+            <div class="row">
+
+                <div class="container p-4 pb-0">
+                    <!-- Section: CTA -->
+                    <section class="">
+                        <p class="d-flex justify-content-center align-items-center">
+                            <span class="me-3">Siz de ISTORE’la teknoloji dünyasının bir parçası olun, Apple deneyiminizi en üst düzeye çıkarın!</span>
+                            <button data-mdb-ripple-init type="button" class="btn btn-outline-dark btn-rounded">
+                                Sign up!
+                            </button>
+                        </p>
+                    </section>
+                    <!-- Section: CTA -->
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
         </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: black; color:white">
+            © 2025 ISTORE
+
+        </div>
+        <!-- Copyright -->
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

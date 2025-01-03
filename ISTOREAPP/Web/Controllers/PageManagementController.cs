@@ -2,12 +2,14 @@
 using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISTOREAPP.Web.Controllers
 {
+    [Authorize(Roles = "Admin,Owner,Editör")]
     public class PageManagementController : Controller
     {
         private readonly StoreContext _context;
@@ -18,6 +20,7 @@ namespace ISTOREAPP.Web.Controllers
             _context = context;
             _productService = productService;
         }
+
         public IActionResult HomePageManagement()
         {
             return View();
