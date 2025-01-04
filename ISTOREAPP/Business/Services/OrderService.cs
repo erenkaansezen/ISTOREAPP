@@ -19,6 +19,7 @@ namespace Business.Services
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
+                .Where(o => o.approve == false)
                 .Include(o => o.OrderItems) // OrderItems ile ilişkiyi dahil ediyoruz
                 .ThenInclude(oi => oi.Product) // Eğer ürün detaylarını da getirecekseniz, Product'ı dahil edebilirsiniz
                 .ToListAsync();
@@ -32,7 +33,7 @@ namespace Business.Services
         }
 
         /// Yeni bir satış ekler.
-        public async Task AddCategoryAsync(Order order)
+        public async Task AddOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
@@ -62,6 +63,14 @@ namespace Business.Services
 
             order.approve = !order.approve; // Durumu tersine çevir
             await _context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<Order>> GetApproveTrue()
+        {
+            return await _context.Orders
+                .Where(o => o.approve == true)
+                .Include(o => o.OrderItems) // OrderItems ile ilişkiyi dahil ediyoruz
+                .ThenInclude(oi => oi.Product) // Eğer ürün detaylarını da getirecekseniz, Product'ı dahil edebilirsiniz
+                .ToListAsync();
         }
     }
 }

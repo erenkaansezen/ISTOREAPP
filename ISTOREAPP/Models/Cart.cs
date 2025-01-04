@@ -6,7 +6,7 @@ namespace ISTOREAPP.Models
     {
         public List<CartItem> Items { get; set; } = new List<CartItem>();
 
-        public void AddItem(Product product, int quantity)
+        public virtual void AddItem(Product product, int quantity)
         {
             var item = Items.Where(p => p.Product.Id == product.Id).FirstOrDefault();
             // sepette bir ürün varmı kontrol eder
@@ -21,7 +21,7 @@ namespace ISTOREAPP.Models
                 item.Quantity += quantity;
             }
         }
-        public void ItemDecrease(Product product, int quantity)
+        public virtual void ItemDecrease(Product product, int quantity)
         {
             var item = Items.Where(p => p.Product.Id == product.Id).FirstOrDefault();
             // sepette bir ürün varmı kontrol eder
@@ -36,7 +36,7 @@ namespace ISTOREAPP.Models
             }
 
         }
-        public void RemoveItem(Product product)
+        public virtual void RemoveItem(Product product)
         {
             //seçilen ürünü sepetten kaldırır
             Items.RemoveAll(i => i.Product.Id == product.Id);
@@ -47,7 +47,7 @@ namespace ISTOREAPP.Models
             return (decimal)Items.Sum(i => i.Product.Price * i.Quantity);
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             //Sepeti komple temizler
             Items.Clear();

@@ -15,12 +15,18 @@ namespace ISTOREAPP.Models
         public string? City { get; set; }
         [Display(Name = "Gönderim Adresi")]
         public string? AdressLine { get; set; }
+        [Display(Name = "Gönderim Adresi")]
+        public string? PhoneNumber { get; set; }
         [BindNever]
         public Cart Cart { get; set; } = new();
 
         [Display(Name = "Kartın Üstündeki Kullanıcı Adı")]
         [Required(ErrorMessage = "Sepet adı gereklidir.")]
         public string? CartName { get; set; }
+        
+        [Display(Name = "Kartın Üstündeki Kullanıcı Adı")]
+        [Required(ErrorMessage = "Sepet adı gereklidir.")]
+        public string? CartSurname { get; set; }
 
         [Display(Name = "Kart Numarası")]
         [Required(ErrorMessage = "Kart numarası gereklidir.")]

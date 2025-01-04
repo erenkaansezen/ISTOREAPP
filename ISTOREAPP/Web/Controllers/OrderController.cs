@@ -17,26 +17,26 @@ namespace ISTOREAPP.Web.Controllers
     public class OrderController:Controller
     {
         public StoreContext _storeContext;
-
-        public Cart _cart;
+        public OrderService _orderService;
+        public Cart cart;
         private readonly UserManager<AppUser> _userManager;
 
 
-        public OrderController(Cart cartService, UserManager<AppUser> userManager, StoreContext storeContext)
+        public OrderController(Cart cartService, UserManager<AppUser> userManager, StoreContext storeContext, OrderService orderService)
         {
-            _cart = cartService;
+            cart = cartService;
             _userManager = userManager;
             _storeContext = storeContext;
+            _orderService = orderService;
         }
 
         public IActionResult Checkout()
         {
             var user = _userManager.GetUserAsync(User).Result; // Oturum açmış kullanıcıyı alıyoruz.
-            var carted = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
 
             var model = new OrderModel()
             {
-                Cart = carted,
+                Cart = cart,
 
                 User = user
                 // Kullanıcı bilgisini modelde set ediyoruz.
@@ -48,9 +48,8 @@ namespace ISTOREAPP.Web.Controllers
         {
             var user = _userManager.GetUserAsync(User).Result; // Oturum açmış kullanıcıyı alıyoruz.
 
-            var carted = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
 
-            if (carted.Items.Count == 0)
+            if (cart.Items.Count == 0)
             {
                 ModelState.AddModelError("", "Sepetinizde ürün yok!");            
             }
@@ -58,13 +57,13 @@ namespace ISTOREAPP.Web.Controllers
             {
                 var order = new Order
                 {
-                    Name = user.UserName,
+                    Name = user.FullName,
                     Email = user.Email,
                     City = model.City,
-                    Phone = user.PhoneNumber,
+                    Phone = user.PhoneNumber ?? model.PhoneNumber,
                     AddressLine = model.AdressLine,
                     OrderDate = DateTime.Now,
-                    OrderItems = carted.Items.Select(i => new ISTOREAPP.Data.Entities.OrderItem
+                    OrderItems = cart.Items.Select(i => new ISTOREAPP.Data.Entities.OrderItem
                     {
                         ProductId = (int)i.Product.Id,
                         Price = (double)i.Product.Price,
@@ -72,33 +71,31 @@ namespace ISTOREAPP.Web.Controllers
                     }).ToList()
                 };
 
-                var payment = await ProcessPayment();
+                model.Cart = cart;
+                var payment = await ProcessPayment(model);
                 if (payment.Status=="success")
                 {
 
                     // Order'ı Orders tablosuna ekliyoruz
-                    await _storeContext.Orders.AddAsync(order);  // `Orders` tablosuna ekliyoruz
-
-                    // Veritabanına kaydediyoruz
-                    await _storeContext.SaveChangesAsync();  // Veritabanına işlemi kaydediyoruz
-
-                    // Sepeti temizleyebiliriz (isteğe bağlı)
-                    HttpContext.Session.Remove("cart");
+                    await _orderService.AddOrderAsync(order);  // `Orders` tablosuna ekliyoruz
+                    cart.Clear();
                     return RedirectToPage("/Completed", new { OrderId = order.Id });
 
                 }
-
-                return RedirectToPage("/Completed", new { OrderId = order.Id });
+                model.Cart = cart;
+                return View(model);
             }
             else
             {
-                return RedirectToPage("/StorePage");
+                model.Cart = cart;
+                return View(model);
+
 
             }
 
         }
 
-        private async Task<Payment> ProcessPayment()
+        private async Task<Payment> ProcessPayment(OrderModel model)
         {
             Options options = new Options();
             options.ApiKey = "sandbox-k9ARonYWgD99rlPYRe2lXt8AwiY73qQL";
@@ -107,9 +104,9 @@ namespace ISTOREAPP.Web.Controllers
 
             CreatePaymentRequest request = new CreatePaymentRequest();
             request.Locale = Locale.TR.ToString();
-            request.ConversationId = "123456789";
-            request.Price = "1";
-            request.PaidPrice = "1.2";
+            request.ConversationId = new Random().Next(111111111, 999999999).ToString();
+            request.Price = model?.Cart?.CalculateTotal().ToString();
+            request.PaidPrice = model?.Cart?.CalculateTotal().ToString();
             request.Currency = Currency.TRY.ToString();
             request.Installment = 1;
             request.BasketId = "B67832";
@@ -117,18 +114,18 @@ namespace ISTOREAPP.Web.Controllers
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
 
             PaymentCard paymentCard = new PaymentCard();
-            paymentCard.CardHolderName = "John Doe";
-            paymentCard.CardNumber = "5528790000000008";
-            paymentCard.ExpireMonth = "12";
-            paymentCard.ExpireYear = "2030";
-            paymentCard.Cvc = "123";
+            paymentCard.CardHolderName = model?.CartName;
+            paymentCard.CardNumber = model?.CartNumber;
+            paymentCard.ExpireMonth = model?.ExpirationMonth;
+            paymentCard.ExpireYear = model?.ExpirationYear;
+            paymentCard.Cvc = model?.Cvc;
             paymentCard.RegisterCard = 0;
             request.PaymentCard = paymentCard;
 
             Buyer buyer = new Buyer();
             buyer.Id = "BY789";
-            buyer.Name = "John";
-            buyer.Surname = "Doe";
+            buyer.Name = model?.CartName;
+            buyer.Surname = model?.CartSurname;
             buyer.GsmNumber = "+905350000000";
             buyer.Email = "email@email.com";
             buyer.IdentityNumber = "74300864791";
@@ -158,32 +155,19 @@ namespace ISTOREAPP.Web.Controllers
             request.BillingAddress = billingAddress;
 
             List<BasketItem> basketItems = new List<BasketItem>();
-            BasketItem firstBasketItem = new BasketItem();
-            firstBasketItem.Id = "BI101";
-            firstBasketItem.Name = "Binocular";
-            firstBasketItem.Category1 = "Collectibles";
-            firstBasketItem.Category2 = "Accessories";
-            firstBasketItem.ItemType = BasketItemType.PHYSICAL.ToString();
-            firstBasketItem.Price = "0.3";
-            basketItems.Add(firstBasketItem);
 
-            BasketItem secondBasketItem = new BasketItem();
-            secondBasketItem.Id = "BI102";
-            secondBasketItem.Name = "Game code";
-            secondBasketItem.Category1 = "Game";
-            secondBasketItem.Category2 = "Online Game Items";
-            secondBasketItem.ItemType = BasketItemType.VIRTUAL.ToString();
-            secondBasketItem.Price = "0.5";
-            basketItems.Add(secondBasketItem);
+            foreach (var item in model?.Cart?.Items ?? Enumerable.Empty<CartItem>())
+            {
+                BasketItem firstBasketItem = new BasketItem();
+                firstBasketItem.Id = item.Product.Id.ToString();
+                firstBasketItem.Name = item.Product.Name;
+                firstBasketItem.Category1 = "Telefon";
+                firstBasketItem.ItemType = BasketItemType.PHYSICAL.ToString();
+                firstBasketItem.Price = item.Product.Price.ToString();
+                basketItems.Add(firstBasketItem);
+            }
 
-            BasketItem thirdBasketItem = new BasketItem();
-            thirdBasketItem.Id = "BI103";
-            thirdBasketItem.Name = "Usb";
-            thirdBasketItem.Category1 = "Electronics";
-            thirdBasketItem.Category2 = "Usb / Cable";
-            thirdBasketItem.ItemType = BasketItemType.PHYSICAL.ToString();
-            thirdBasketItem.Price = "0.2";
-            basketItems.Add(thirdBasketItem);
+
             request.BasketItems = basketItems;
 
             Iyzipay.Model.Payment payment = await Payment.Create(request, options);

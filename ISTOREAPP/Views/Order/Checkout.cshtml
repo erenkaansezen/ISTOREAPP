@@ -14,12 +14,12 @@
         <form method="post" asp-action="Checkout">
             <div class="row">
                 <div class="col">
-                    <label asp-for="@Model.User.UserName">Kullanıcı Adı</label>
-                    <input asp-for="@Model.User.UserName" class="form-control" value="@Model.User.UserName" />
+                    <label asp-for="@Model.User.FullName">Kullanıcı Adı</label>
+                    <input asp-for="@Model.User.FullName" class="form-control" value="@Model.User.FullName"  disabled/>
                 </div>
                 <div class="col">
                     <label asp-for="@Model.User.Email">Kullanıcı Email</label>
-                    <input asp-for="@Model.User.Email" class="form-control" value="@Model.User.Email" />
+                    <input asp-for="@Model.User.Email" class="form-control" value="@Model.User.Email" disabled />
                 </div>
             </div>
             <br />
@@ -29,8 +29,8 @@
                     <input asp-for="@Model.City" class="form-control" />
                 </div>
                 <div class="col">
-                    <label asp-for="@Model.User.PhoneNumber">Kullanıcı Telefon Numarası</label>
-                    <input asp-for="@Model.User.PhoneNumber" class="form-control" value="@Model.User.PhoneNumber" />
+                    <label asp-for="@Model.PhoneNumber">Kullanıcı Telefon Numarası</label>
+                    <input asp-for="@Model.PhoneNumber" class="form-control" value="@Model.User.PhoneNumber" />
                 </div>
             </div>
             <br />
@@ -45,6 +45,10 @@
                 <div class="col">
                     <label asp-for="@Model.CartName"></label>
                     <input asp-for="@Model.CartName" class=form-control>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.CartSurname"></label>
+                    <input asp-for="@Model.CartSurname" class=form-control>
                 </div>
                 <div class="col">
                     <label asp-for="@Model.CartNumber"></label>

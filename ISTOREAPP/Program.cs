@@ -1,5 +1,6 @@
 using Business.Services;
 using ISTOREAPP.Business.Identity;
+using ISTOREAPP.Business.Services;
 using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.Models;
@@ -36,6 +37,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddDistributedMemoryCache(); // Session'ý Memory Üzerinde Kullanýr
 
 builder.Services.AddSession(); // Session'ý Aktif Eder
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<Cart>(sc => SessionCart.GetCart(sc));
 
 
 

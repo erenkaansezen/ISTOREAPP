@@ -26,7 +26,6 @@ namespace ISTOREAPP.Pages
         public Cart? Cart { get; set; }
         public void OnGet()
         {
-            Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
         public IActionResult OnPost(int Id)
@@ -34,9 +33,7 @@ namespace ISTOREAPP.Pages
             var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
             if (product != null)
             {
-                Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-                Cart.AddItem(product, 1);
-                HttpContext.Session.SetJson("cart", Cart);
+                Cart?.AddItem(product, 1);
 
             }
 
@@ -48,9 +45,7 @@ namespace ISTOREAPP.Pages
             var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
             if (product != null)
             {
-                Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-                Cart.AddItem(product, 1);
-                HttpContext.Session.SetJson("cart", Cart);
+                Cart?.AddItem(product, 1);
 
             }
 
@@ -61,10 +56,8 @@ namespace ISTOREAPP.Pages
             var product = _storeContext.Products.FirstOrDefault(p => p.Id == Id);
             if (product != null)
             {
-                Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
 
-                Cart.ItemDecrease(product, 1);
-                HttpContext.Session.SetJson("cart", Cart);
+                Cart?.ItemDecrease(product, 1);
 
             }
 

@@ -141,7 +141,9 @@
                     Sipariş Yönetim
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" asp-controller="OrderManagement" asp-action="PendingOrders">Gelen Siparişler</a></li>
+                    <li><a class="dropdown-item" asp-controller="OrderManagement" asp-action="ReceivedOrders">Gelen Siparişler</a></li>
+
+                    <li><a class="dropdown-item" asp-controller="OrderManagement" asp-action="PendingOrders">Bekleyen Siparişler</a></li>
                     <li><a class="dropdown-item" asp-controller="OrderManagement" asp-action="OrderPage">Tamamlanan Siparişler</a></li>
                 </ul>
             </div>

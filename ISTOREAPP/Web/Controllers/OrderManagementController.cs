@@ -23,17 +23,34 @@ namespace ISTOREAPP.Web.Controllers
 
 
         //Order Yönetimi
-        public async Task<IActionResult> PendingOrders()
+        public async Task<IActionResult> ReceivedOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
         }
 
+
+
+        public async Task<IActionResult> PendingOrders()
+        {
+            var orders = await _orderService.GetApproveTrue();
+            return View(orders);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> ApproveOrders(int id)
         {
             await _orderService.Approve(id);
-            return RedirectToAction("PendingOrders");
+            return RedirectToAction("ReceivedOrders");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrdersDelete(int id)
+        {
+            await _orderService.DeleteOrderAsync(id);
+            return RedirectToAction("ReceivedOrders");
 
         }
     }

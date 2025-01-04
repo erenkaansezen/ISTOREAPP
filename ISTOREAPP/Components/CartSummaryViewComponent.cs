@@ -15,8 +15,6 @@ public class CartSummaryViewComponent : ViewComponent
 
     public IViewComponentResult Invoke()
     {
-        var cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-
         // Sepet ürün adedini hesaplayın
         int totalItems = cart.Items.Sum(i => i.Quantity);
 
