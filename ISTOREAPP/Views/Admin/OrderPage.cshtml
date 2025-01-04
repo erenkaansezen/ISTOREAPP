@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Order>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<br />
+<h2>| Bekleyen Siparişler</h2>
+<hr />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sipariş ID</th>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th>Sepet Ürünleri</th>
+            <th>Sipariş Oluşturma Tarihi</th>
+            <th>Toplam Sipariş Tutarı</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Name</td>
+                <td>@order.Email</td>
+                <td>
+                    @foreach (var Order in order.OrderItems)
+                    {
+                        <span>@Order.Product.Name (@Order.Quantity adet)</span>
+
+                        <br />
+                    }
+                </td>
+                <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                <td>@order.OrderItems.Sum(item => item.Price * item.Quantity).ToString("C")</td> <!-- Toplam tutar burada hesaplanır -->
+
+                <td>
+                    <a href="@Url.Action("Details", "Orders", new { id = order.Id })" class="btn btn-info">Detaylar</a>
+                    <a href="@Url.Action("Edit", "Orders", new { id = order.Id })" class="btn btn-warning">Düzenle</a>
+                    <a href="@Url.Action("Delete", "Orders", new { id = order.Id })" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

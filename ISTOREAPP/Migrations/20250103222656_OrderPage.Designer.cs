@@ -3,6 +3,7 @@ using System;
 using ISTOREAPP.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ISTOREAPP.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250103222656_OrderPage")]
+    partial class OrderPage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -195,9 +198,6 @@ namespace ISTOREAPP.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("approve")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

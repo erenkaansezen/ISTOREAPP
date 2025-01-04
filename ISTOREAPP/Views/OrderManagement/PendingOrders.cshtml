@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Order>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<br />
+<h2>| Gelen Siparişler</h2>
+<hr />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sipariş ID</th>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th>Sepet Ürünleri</th>
+            <th>Sipariş Oluşturma Tarihi</th>
+            <th>Toplam Sipariş Tutarı</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model.Where(o => o.approve == false))
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Name</td>
+                <td>@order.Email</td>
+                <td>
+                    @foreach (var Order in order.OrderItems)
+                    {
+                        <span>@Order.Product.Name (@Order.Quantity adet)</span>
+
+                        <br />
+                    }
+                </td>
+                <td>@order.OrderDate.ToString("dd-MM-yyyy")</td>
+                <td>@order.OrderItems.Sum(item => item.Price * item.Quantity).ToString("C")</td> <!-- Toplam tutar burada hesaplanır -->
+
+                <td>
+                    <form asp-action="ApproveOrders" method="post" style="display: inline;">
+                        <input type="hidden" name="id" value="@order.Id" />
+                         <button type="submit" asp class="btn btn-dark button-container btm-sm ">Siparişi Onayla</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

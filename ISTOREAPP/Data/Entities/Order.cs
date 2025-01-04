@@ -11,6 +11,9 @@
         public string AddressLine { get; set; } = null!;
         public AppUser? User { get; set; }
 
+        public bool approve { get; set; } = false;
+        public double TotalAmount => OrderItems.Sum(item => item.Price * item.Quantity);
+
         public List<OrderItem> OrderItems { get; set; } = new();
     }
     public class OrderItem

@@ -14,6 +14,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<SliderService>(); // SliderService eklenmiþ
 builder.Services.AddScoped<CategoryService>(); // CategoryService eklenmiþ
 builder.Services.AddScoped<ProductService>(); // ProductService eklenmiþ
+builder.Services.AddScoped<OrderService>(); // Order eklenmiþ
+
 builder.Services.AddScoped<Cart>();
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 

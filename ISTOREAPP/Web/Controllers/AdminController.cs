@@ -1,4 +1,5 @@
-﻿using ISTOREAPP.Data.Context;
+﻿using Business.Services;
+using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -14,16 +15,17 @@ namespace ISTOREAPP.Web.Controllers
 
         private UserManager<AppUser> _userManager;
         private readonly StoreContext _context;
-
+        private OrderService _orderService;
         private readonly RoleManager<AppRole> _roleManager;
-        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, StoreContext context)
+        public AdminController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, StoreContext context, OrderService orderService)
         {
+            _orderService= orderService;
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
         }
 
-
+        //User Yönetimi
         public IActionResult UsersList()
         {
             return View(_userManager.Users);
@@ -108,6 +110,9 @@ namespace ISTOREAPP.Web.Controllers
             return RedirectToAction("UsersList", "Admin");
 
         }
+
+
+        //Rol Yönetimi
         public IActionResult Rollers()
         {
             return View(_roleManager.Roles);
@@ -181,6 +186,12 @@ namespace ISTOREAPP.Web.Controllers
             return View(model);
         }
 
+        //Order Yönetimi
+        public async Task<IActionResult> OrderPage()
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            return View(orders);
+        }
 
     }
 }

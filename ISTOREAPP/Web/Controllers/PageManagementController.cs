@@ -21,10 +21,9 @@ namespace ISTOREAPP.Web.Controllers
             _productService = productService;
         }
 
-        public IActionResult HomePageManagement()
-        {
-            return View();
-        }
+
+
+        //Mağaza Yönetimi
         public IActionResult StorePageManagement(string category)
         {
             // Kategoriler listesini al
@@ -51,13 +50,15 @@ namespace ISTOREAPP.Web.Controllers
             return View(viewModel);
         }
 
-        //Product İşlemleri
+
+
+        //Mağaza Yönetimi Product İşlemleri
         public IActionResult StoreProductCreate(int id)
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> StoreProductCreate(Product productmodel, ProductCategory categorymodel ,IFormFile imageFile)
+        public async Task<IActionResult> StoreProductCreate(Product productmodel, ProductCategory categorymodel, IFormFile imageFile)
         {
             if (imageFile != null)
             {
@@ -99,30 +100,15 @@ namespace ISTOREAPP.Web.Controllers
                     ProductId = product.Id,
                 };
                 await _context.ProductCategory.AddAsync(ProdcutCategory);
-               
-                
+
+
                 await _context.SaveChangesAsync();
 
 
             }
-            //else
-            //{
-            //    // Mevcut slider'ı güncelleme işlemi
-            //    var existingSlider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == model.SliderImgId);
-            //    if (existingSlider != null)
-            //    {
-            //        existingSlider.SliderImg = model.SliderImg;
-            //        existingSlider.SliderImgName = model.SliderImgName;
-            //        existingSlider.IsActive = model.IsActive;
-            //    }
-            //}
-
-            // Değişiklikleri 
-            // Listeleme sayfasına yönlendir
             return RedirectToAction("HomeSliderManagement");
 
         }
-
         [HttpPost]
         public async Task<IActionResult> StoreProductDelete(int id)
         {
@@ -130,9 +116,6 @@ namespace ISTOREAPP.Web.Controllers
             return RedirectToAction("StorePageManagement");
 
         }
-        
-
-
         [HttpPost]
         public async Task<IActionResult> StoreIsActive(int id)
         {
@@ -148,13 +131,15 @@ namespace ISTOREAPP.Web.Controllers
 
         }
 
-        public IActionResult ContactPageManagement()
+
+
+
+
+        //Anasayfa Yönetimi 
+        public IActionResult HomePageManagement()
         {
             return View();
         }
-
-
-        //ANASAYFA CONTROLLERS!
         public IActionResult HomeSliderManagement()
         {
             // Veritabanından Slider verilerini al
@@ -175,7 +160,8 @@ namespace ISTOREAPP.Web.Controllers
             return View();
         }
 
-        //Slider Edit
+
+        //Slider Yönetimi
         [HttpPost]
         public IActionResult SliderEdit(int id)
         {
@@ -208,7 +194,6 @@ namespace ISTOREAPP.Web.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> SliderCreate(Slider model, IFormFile imageFile)
@@ -259,6 +244,8 @@ namespace ISTOREAPP.Web.Controllers
             return RedirectToAction("HomeSliderManagement");
         }
 
+
+        //Kategori Sayfası Yönetimi
         [HttpPost]
         public IActionResult CategoryEdit(int id)
         {
@@ -330,9 +317,8 @@ namespace ISTOREAPP.Web.Controllers
             // Listeleme sayfasına yönlendir
             return RedirectToAction("HomeCategoryManagement");
         }
-
-
         [HttpPost]
+
         public IActionResult CategoryDelete(int id)
         {
             var category = _context.Categories.FirstOrDefault(s => s.Id == id);
@@ -345,5 +331,13 @@ namespace ISTOREAPP.Web.Controllers
             _context.SaveChanges();
             return RedirectToAction("HomeCategoryManagement");
         }
+
+        //İletişim Sayfası Yönetimi
+        public IActionResult ContactPageManagement()
+        {
+            return View();
+        }
+
+        
     }
 }
