@@ -2,6 +2,7 @@
 using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
+using ISTOREAPP.ViewModels.ISTOREAPP.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,33 +24,36 @@ namespace ISTOREAPP.Web.Controllers
 
 
         //Order Yönetimi
-        public async Task<IActionResult> ReceivedOrders()
+
+        //Bekleyen Siparişler
+        public async Task<IActionResult> PendingOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
         }
 
-
-
-        public async Task<IActionResult> PendingOrders()
+        //Tamamlanan siparişler
+        public async Task<IActionResult> CompletedOrder()
         {
+
             var orders = await _orderService.GetApproveTrue();
             return View(orders);
         }
 
+        //Satılan ürünün detay sayfası
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            return View(await _orderService.GetOrderByIdAsync(id));
 
+
+        }
+
+
+        //ürünü PendingOrders'dan CompletedOrder'a taşır
         [HttpPost]
         public async Task<IActionResult> ApproveOrders(int id)
         {
             await _orderService.Approve(id);
-            return RedirectToAction("ReceivedOrders");
-
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> OrdersDelete(int id)
-        {
-            await _orderService.DeleteOrderAsync(id);
             return RedirectToAction("ReceivedOrders");
 
         }

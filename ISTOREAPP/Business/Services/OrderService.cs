@@ -1,6 +1,8 @@
 ﻿using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
+using ISTOREAPP.ViewModels.ISTOREAPP.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Business.Services
 {
@@ -29,7 +31,10 @@ namespace Business.Services
         /// Belirli bir ID'ye sahip Satışı getirir.
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
-            return await _context.Orders.FindAsync(id);
+            return await _context.Orders
+                .Include(o => o.OrderItems) // OrderItems ile ilişkiyi dahil ediyoruz
+                .ThenInclude(oi => oi.Product) // Eğer ürün detaylarını da getirecekseniz, Product'ı dahil edebilirsiniz
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         /// Yeni bir satış ekler.
@@ -72,5 +77,6 @@ namespace Business.Services
                 .ThenInclude(oi => oi.Product) // Eğer ürün detaylarını da getirecekseniz, Product'ı dahil edebilirsiniz
                 .ToListAsync();
         }
+
     }
 }

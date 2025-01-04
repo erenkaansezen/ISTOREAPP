@@ -5,20 +5,21 @@
 }
 
 <div class="container my-5">
-    <h2 class="text-center text-black mb-4">Bekleyen Siparişler</h2>
+    <h2 class="text-center text-black mb-4">Tamamlanan Siparişler</h2>
     <hr class="my-4" />
 
     <div class="table-responsive">
-        <table class="table rounded shadow-lg">
+        <table class="table table-striped  shadow-lg">
             <thead class="thead-dark">
                 <tr>
                     <th class="text-center">Sipariş ID</th>
-                    <th class="text-center">Kullanıcı Adı</th>
-                    <th class="text-center">Email</th>
+                    <th class="text-center">Kullanıcı Email</th>
                     <th class="text-center">Sepet Ürünleri</th>
                     <th class="text-center">Sipariş Tarihi</th>
                     <th class="text-center">Toplam Sipariş Tutarı</th>
                     <th class="text-center" style="background-color:white"></th>
+                    <th class="text-center" style="background-color:white"></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -26,23 +27,20 @@
                 {
                     <tr>
                         <td class="text-center">@order.Id</td>
-                        <td class="text-center">@order.Name</td>
                         <td class="text-center">@order.Email</td>
                         <td class="text-center">
                             @foreach (var orderItem in order.OrderItems)
                             {
                                 <span class="badge badge-info">@orderItem.Product.Name (@orderItem.Quantity adet)</span>
-
                                 <br />
                             }
                         </td>
                         <td class="text-center">@order.OrderDate.ToString("dd-MM-yyyy HH:mm")</td>
                         <td class="text-center text-success">@order.OrderItems.Sum(item => item.Price * item.Quantity).ToString("C")</td>
                         <td class="text-center">
-                            <form asp-action="ApproveOrders" method="post" class="d-inline-block">
+                            <form asp-action="OrderDetails" method="post" class="d-inline-block">
                                 <input type="hidden" name="id" value="@order.Id" />
-                                <button type="submit" asp class="btn btn-outline-success button-container btm-sm">Siparişi Tamamla</button>
-
+                                <button type="submit" class="btn btn-warning btm-sm w-100">Sipariş Ayrıntısı</button>
                             </form>
                         </td>
                     </tr>
@@ -73,16 +71,12 @@
             text-align: center;
         }
 
-
-
     /* Dark header with white text */
     .thead-dark {
         background-color: #343a40;
         color: white;
         font-size: 1.1rem;
     }
-
-
 
     /* Badge style for product names */
     .badge-info {
@@ -104,4 +98,31 @@
         transition: all 0.3s ease;
     }
 
+    /* Butonları dikey hizalamak için button-container sınıfı */
+    .button-container {
+        display: flex;
+        flex-direction: column; /* Butonları dikey olarak hizalar */
+        gap: 10px; /* Butonlar arasındaki boşluk */
+        width: 100%; /* Container genişliğini tam ekran yapar */
+        max-width: 400px; /* Maksimum genişlik ayarlandığında, butonlar büyük ekranlarda da düzgün görünür */
+        text-align: center; /* Butonları ortalar */
+    }
+
+    /* Butonlara stil ekledik */
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%; /* Butonlar tüm genişliği kaplar */
+    }
+
+    /* Butonların arasındaki boşluk */
+    .btn-outline-warning, .btn-outline-success {
+        margin-bottom: 10px; /* Butonlar arasındaki boşluk */
+    }
 </style>

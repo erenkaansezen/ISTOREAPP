@@ -1,0 +1,83 @@
+﻿@model ISTOREAPP.Data.Entities.Order
+
+@{
+    ViewData["Title"] = "Sipariş Detayı";
+    Layout = "_LayoutAdmin";
+}
+<br />
+<div>
+    @if (Model.approve == false)
+    {
+        <a asp-action="PendingOrders" class="btn btn-secondary">Geriye Dön</a>
+
+    }
+    else
+    {
+        <a asp-action="CompletedOrder" class="btn btn-secondary">Geriye Dön</a>
+
+    }
+    <br />
+    <h3>#@Model.Id Numaralı Sipariş Bilgileri</h3>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>Adı</th>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <th>Şehir</th>
+            <td>@Model.City</td>
+        </tr>
+        <tr>
+            <th>Telefon</th>
+            <td>@Model.Phone</td>
+        </tr>
+        <tr>
+            <th>E-Posta</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Adres</th>
+            <td>@Model.AddressLine</td>
+        </tr>
+        <tr>
+            <th>Onay Durumu</th>
+            <td>@(Model.approve ? "Onaylandı" : "Onay Bekliyor")</td>
+        </tr>
+        <tr>
+            <th>Sipariş Tarihi</th>
+            <td>@Model.OrderDate.ToString("dd/MM/yyyy")</td>
+        </tr>
+        <tr>
+            <th>Toplam Tutar</th>
+            <td>@Model.TotalAmount ₺</td>
+        </tr>
+    </table>
+</div>
+
+<h3>Sipariş Ürünleri</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ürün Adı</th>
+            <th>Miktar</th>
+            <th>Birim Fiyat</th>
+            <th>Toplam Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Price.ToString("C2")</td>
+                <td>@(item.Price * item.Quantity)₺</td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+

@@ -36,18 +36,16 @@
                         <td class="text-center">@order.OrderDate.ToString("dd-MM-yyyy HH:mm")</td>
                         <td class="text-center text-success">@order.OrderItems.Sum(item => item.Price * item.Quantity).ToString("C")</td>
                         <td class="text-center">
-                            <!-- Sipariş Ayrıntısı Butonu -->
-                            <form asp-action="ApproveOrders" method="post" class="d-inline-block">
+                            <form asp-action="OrderDetails" method="post" class="d-inline-block">
                                 <input type="hidden" name="id" value="@order.Id" />
                                 <button type="submit" class="btn btn-warning btm-sm w-100">Sipariş Ayrıntısı</button>
                             </form>
-                            <!-- Siparişi Tamamla Butonu -->
+                        </td>
+                        <td>
                             <form asp-action="ApproveOrders" method="post" class="d-inline-block mb-2">
                                 <input type="hidden" name="id" value="@order.Id" />
                                 <button type="submit" class="btn btn-success btm-sm w-100">Siparişi Tamamla</button>
                             </form>
-
-
                         </td>
                     </tr>
                 }
