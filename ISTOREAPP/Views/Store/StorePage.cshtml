@@ -43,13 +43,18 @@
                                     <div class="card-body text-center">
                                         <h5 class="card-title">@product.Name</h5>
                                         <p class="text-success">@product.Price ₺</p>
-                                    </div>
-                                    <div class="card-body ">
+                                        <p style="color:#555">@product.Features</p>
                                         <form asp-page="/Cart" asp-page-handler="AddItem" method="post" class="d-flex justify-content-center">
                                             <input type="hidden" asp-for="@product.Id" name="Id">
                                             <button type="submit" class="btn btn-outline-success btn-sm" style="float:right;">Sepete Ekle</button>
                                         </form>
+                                        <br />
+                                        <form asp-action="ProductDetails" method="post" class="d-flex justify-content-center">
+                                            <input type="hidden" asp-for="@product.Id" name="Id" />
+                                            <button type="submit" class="btn btn-outline-dark btn-sm">Ürün Detayı</button>
+                                        </form>
                                     </div>
+
 
                                 </div>
 

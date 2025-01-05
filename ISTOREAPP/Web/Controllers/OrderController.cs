@@ -57,7 +57,7 @@ namespace ISTOREAPP.Web.Controllers
             {
                 var order = new Order
                 {
-                    Name = user.FullName,
+                    Name = user.UserName,
                     Email = user.Email,
                     City = model.City,
                     Phone = user.PhoneNumber ?? model.PhoneNumber,

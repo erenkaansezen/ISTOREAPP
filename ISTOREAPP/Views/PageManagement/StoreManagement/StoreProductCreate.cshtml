@@ -1,13 +1,15 @@
 ﻿
 @model Product
 @{
-    Layout = "_Layout";  // Varsayılan olarak yeni layout'u kullan
+    Layout = "_LayoutAdmin";  // Varsayılan olarak yeni layout'u kullan
 }
 
 <br />
-<h2>Category Ekleme</h2>
+<h2>Ürün Ekle</h2>
 <hr />
-
+<a asp-action="StorePageManagement" class="btn btn-secondary">Geri Dön</a>
+<br />
+<br />
 <form asp-action="StoreProductCreate" method="post" enctype="multipart/form-data">
     <input type="hidden" name="SliderImgId" value="@Model?.Id" />
 
@@ -17,6 +19,10 @@
     </div>
     <div class="form-group">
         <label for="Description">Ürün Açıklaması</label>
+        <input type="text" name="Features" class="form-control" value="@Model?.Features" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Ürün Özellikleri</label>
         <input type="text" name="Description" class="form-control" value="@Model?.Description" />
     </div>
     <div class="form-group">

@@ -47,9 +47,14 @@ namespace ISTOREAPP.Web.Controllers
                 CurrentCategory = category
             };
 
-            return View(viewModel);
+            return View("StoreManagement/StorePageManagement", viewModel);
         }
 
+        public async Task<IActionResult> StoreProductEdit(int id)
+        {
+            var products = await _productService.GetProductByIdAsync(id);
+            return View(products);
+        }
 
 
         //Mağaza Yönetimi Product İşlemleri
@@ -138,26 +143,24 @@ namespace ISTOREAPP.Web.Controllers
         //Anasayfa Yönetimi 
         public IActionResult HomePageManagement()
         {
-            return View();
+            return View("HomeManagement/HomePageManagement");
         }
         public IActionResult HomeSliderManagement()
         {
             // Veritabanından Slider verilerini al
             var sliders = _context.Sliders.ToList();
-
-
-
             // Dönüştürülen modeli view'a gönder
-            return View(sliders);
+            return View("HomeManagement/HomeSliderManagement",sliders);
+
         }
         public IActionResult HomeCategoryManagement()
         {
             var categories = _context.Categories.ToList();
-            return View(categories);
+            return View("HomeManagement/HomeCategoryManagement",categories);
         }
         public IActionResult HomeFeaturedManagement()
         {
-            return View();
+            return View("HomeManagement/HomeFeaturedManagement");
         }
 
 
@@ -192,7 +195,7 @@ namespace ISTOREAPP.Web.Controllers
 
         public IActionResult SliderCreate(int id)
         {
-            return View();
+            return View("SliderManagement/SliderCreate");
         }
 
         [HttpPost]
@@ -241,7 +244,7 @@ namespace ISTOREAPP.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Listeleme sayfasına yönlendir
-            return RedirectToAction("HomeSliderManagement");
+            return RedirectToAction("HomeManagement/HomeSliderManagement");
         }
 
 
@@ -261,7 +264,7 @@ namespace ISTOREAPP.Web.Controllers
         }
         public IActionResult CategoryCreate(int id)
         {
-            return View();
+            return View("CategoryManagement/CategoryCreate");
         }
         [HttpPost]
         public async Task<IActionResult> CategoryCreate(Category model, IFormFile imageFile)
@@ -315,10 +318,9 @@ namespace ISTOREAPP.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Listeleme sayfasına yönlendir
-            return RedirectToAction("HomeCategoryManagement");
+            return RedirectToAction("HomeManagement/HomeCategoryManagement");
         }
         [HttpPost]
-
         public IActionResult CategoryDelete(int id)
         {
             var category = _context.Categories.FirstOrDefault(s => s.Id == id);

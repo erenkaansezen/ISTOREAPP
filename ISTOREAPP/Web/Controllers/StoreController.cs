@@ -1,4 +1,5 @@
-﻿using ISTOREAPP.Data.Context;
+﻿using Business.Services;
+using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -10,9 +11,11 @@ namespace ISTOREAPP.Web.Controllers
     public class StoreController : Controller
     {
         private readonly StoreContext _context;
+        private ProductService _productService;
 
-        public StoreController(StoreContext context)
+        public StoreController(StoreContext context, ProductService productService)
         {
+            _productService = productService;
             _context = context;
         }
 
@@ -53,6 +56,14 @@ namespace ISTOREAPP.Web.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var details = await _productService.GetProductByIdAsync(id);
+            return View(details);
+        }
+
+
 
 
 

@@ -1,0 +1,147 @@
+﻿@model StoreViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_LayoutAdmin";  // Varsayılan olarak yeni layout'u kullan
+}
+<style>
+    /* Dropdown için stil */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    /* Dropdown içeriği */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #000; /* Siyah arka plan */
+        min-width: 160px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Dropdown butonuna hover yapıldığında içeriği göster */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Dropdown içindeki butonların stili */
+    .dropdown-content button {
+        width: 100%; /* Dropdown içindeki butonlar genişliği kaplasın */
+        text-align: left; /* Butonlar sola hizalı */
+        background-color: #fff; /* Butonların beyaz olması */
+        color: #000; /* Buton metni siyah */
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        /* Butona hover efekti */
+        .dropdown-content button:hover {
+            background-color: black; /* Hoverda mavi renk */
+            color: white; /* Hoverda metin beyaz */
+        }
+
+    /* Standart dropdown butonunun stili */
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+</style>
+
+<h2>Mağaza Sayfası Yönetimi</h2>
+<hr>
+<div class="row">
+    <div class="col-md-3">
+        @await Component.InvokeAsync("CategoriesList", new { viewName = "AdminDefault" })
+        <vc:categories-list />
+    </div>
+
+    <div class="col-md-9">
+
+        <br />
+        <table class="table table-sm table-bordered">
+            <colgroup>
+                <col style="width: 150px;">  <!-- Fotoğrafın genişliği -->
+                <col style="width: auto;">   <!-- Diğer kolonlar için otomatik genişlik -->
+                <col style="width: auto;">
+                <col style="width: 200px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th>İçerik</th>
+                    <th>İçerik Ad</th>
+                    <th>Aktif mi ?</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.products)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/img/Product/@product.img" alt="Product Image" class="d-block w-100 img-hover">
+                        </td>
+                        <td>@product.Name</td>
+                        <td>@(product.IsActive ? "Evet" : "Hayır")</td>
+
+                        <td>
+                            <!-- Dropdown Menü Başlangıcı -->
+                            <div class="dropdown">
+                                <button class="btn btn-dark">İşlemler ↓</button>
+                                <div class="dropdown-content">
+                                    <form asp-action="StoreProductEdit" method="post" style="display: inline;">
+                                        <input type="hidden" value="@product.Id" name="id">
+                                        <button type="submit">Düzenle</button>
+                                    </form>
+                                    <br />
+                                    <form asp-action="StoreIsActive" method="post" style="display: inline;">
+                                        <input type="hidden" name="id" value="@product.Id" />
+                                        @if (product.IsActive)
+                                        {
+                                            <button type="submit">Deaktif Et</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-dark button-container">Aktif Et</button>
+                                        }
+                                    </form>
+                                    <br />
+                                    <form asp-action="StoreTop" method="post" style="display: inline;">
+                                        <input type="hidden" name="id" value="@product.Id" />
+                                        @if (product.top)
+                                        {
+                                            <button type="submit">Öne Çıkarma</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit">Öne Çıkar</button>
+                                        }
+                                    </form>
+                                    <br />
+                                    <form asp-action="StoreProductDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
+                                        <input type="hidden" value="@product.Id" name="id">
+                                        <button type="submit">Sil</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Dropdown Menü Bitişi -->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

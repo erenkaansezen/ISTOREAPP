@@ -25,6 +25,13 @@ namespace ISTOREAPP.Business.Services
             Session?.SetJson("Cart", this);
         }
 
+        public override void ItemDecrease(Product product, int quantity)
+        {
+            base.ItemDecrease(product, quantity);
+            Session?.SetJson("Cart", this);
+
+        }
+
         public override void RemoveItem(Product product)
         {
             base.RemoveItem(product);

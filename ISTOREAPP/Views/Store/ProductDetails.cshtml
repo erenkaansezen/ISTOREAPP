@@ -1,0 +1,93 @@
+﻿@model ISTOREAPP.Data.Entities.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+    Layout = "_Layout";
+}
+<br />
+<h2>| @Model.Name Ürün Detayı</h2>
+<hr />
+<div class="product-details-container">
+    <div class="product-image">
+        @if (!string.IsNullOrEmpty(Model.img))
+        {
+            <img src="~/img/Product/@Model.img" alt="@Model.Name" class="product-image-img" />
+        }
+        else
+        {
+            <img src="https://via.placeholder.com/300" alt="No Image Available" class="product-image-img" />
+        }
+    </div>
+
+    <div class="product-info">
+        <h1 class="product-name">@Model.Name</h1>
+        <br />
+        <p class="product-description"><strong>@Model.Features</strong></p>
+        <p class="product-description">@Model.Description</p>
+
+        @if (Model.Price.HasValue)
+        {
+            <p class="product-price"><strong>Ürün Fiyatı: </strong>@Model.Price ₺</p>
+            <form asp-page="/Cart" asp-page-handler="AddItem" method="post">
+                <input type="hidden" asp-for="@Model.Id" name="Id">
+                <button type="submit" class="btn btn-outline-success btn-sm">Sepete Ekle</button>
+            </form>
+        }
+        else
+        {
+            <p class="product-price"><strong>Ürün Fiyatı: </strong>Not Available</p>
+        }
+
+
+    </div>
+</div>
+
+@section Styles
+{
+    <style>
+        .product-details-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: 30px;
+        }
+
+        .product-image {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .product-image-img {
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 2;
+            padding: 20px;
+            margin-left: 20px;
+        }
+
+        .product-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: green;
+        }
+    </style>
+}

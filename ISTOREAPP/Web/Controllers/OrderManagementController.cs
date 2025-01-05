@@ -54,7 +54,7 @@ namespace ISTOREAPP.Web.Controllers
         public async Task<IActionResult> ApproveOrders(int id)
         {
             await _orderService.Approve(id);
-            return RedirectToAction("ReceivedOrders");
+            return RedirectToAction("PendingOrders");
 
         }
     }
