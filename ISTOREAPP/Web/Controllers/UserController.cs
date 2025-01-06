@@ -94,6 +94,7 @@ namespace ISTOREAPP.Web.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
         public  IActionResult ForgatPassword()
         {
             return View();
@@ -104,13 +105,13 @@ namespace ISTOREAPP.Web.Controllers
         {
             if (string.IsNullOrEmpty(Email))
             {
-                return View();
+                return View("Register");
             }
 
             var user = await _userManager.FindByNameAsync(Email);
             if (user == null)
             {
-                return View();
+                return View("Register");
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -120,6 +121,8 @@ namespace ISTOREAPP.Web.Controllers
             TempData["message"] = "Eposta adresinize gönderilen link ile şifrenizi sıfırlayabilirsiniz ";
             return View();
         }
+
+        [HttpGet]
         public IActionResult ResetPassword(string Id, string token)
         {
             if (Id == null || token == null)
