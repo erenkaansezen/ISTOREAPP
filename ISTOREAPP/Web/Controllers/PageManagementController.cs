@@ -261,7 +261,7 @@ namespace ISTOREAPP.Web.Controllers
             }
             else
             {
-                Sliders.SliderImg = slidermodel.SliderImg;
+                Sliders.SliderImg = Sliders.SliderImg;
             }
 
 

@@ -1,18 +1,19 @@
 ﻿@model HomeViewModel
 <style>
-    /* Yatay Kaydırmalı Ürünler */
-    .scroll-container {
-        display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding: 10px;
-        scroll-behavior: smooth;
-    }
+/* Yatay Kaydırmalı Ürünler */
+.scroll-container {
+    display: flex;
+    gap: 5px; /* Gap değerini düşürdük */
+    overflow-x: auto;
+    padding: 10px;
+    scroll-behavior: smooth;
+}
 
-        .scroll-container .card {
-            flex: 0 0 auto;
-            width: 18rem;
-        }
+.scroll-container .card {
+    flex: 0 0 auto;
+    width: 16rem; /* Kartların genişliğini biraz daha daraltık */
+    margin-right: 0; /* Kartlar arasındaki boşluğu margin ile kontrol ettik */
+}
 </style>
 <!-- Öne Çıkan Ürünler -->
 <section class="container my-5">
