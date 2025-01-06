@@ -20,43 +20,17 @@
 <h2><a asp-controller="PageManagement" asp-action="HomePageManagement" class="black-link">Anasayfa</a> / Kategori Yönetimi</h2>
 <hr>
 <!-- Kategoriler -->
-<section class="container my-5">
-    <h2 class="text-center mb-4">Kategoriler</h2>
-    <div class="row">
-        @foreach (var category in Model)
-        {
-            @if (category.IsActive == true)
-            {
-                <div class="col-md-4 mb-3">
-                    <div class="card category-card shadow-sm">
-                        <div>
-                            <img src="~/img/Category/@category.CategoryImg" class="card-img-top" alt="@category.Name">
-                        </div>
-                        <div class="card-body text-center">
-                            <h5 class="card-title">@category.Name</h5>
-                            <a href="#" class="btn btn-outline-success">Keşfet</a>
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-
-            }
-
-        }
-    </div>
-</section>
+<vc:category />
 <hr />
 <a class="btn btn-outline-success me-2" asp-action="CategoryCreate">İçerik Ekle</a>
 <br />
 <br />
-<table class="table table-sm table-bordered">
+<table class="table table-sm">
     <colgroup>
         <col style="width: 150px;">  <!-- Fotoğrafın genişliği -->
         <col style="width: auto;">   <!-- Diğer kolonlar için otomatik genişlik -->
         <col style="width: auto;">
-        <col style="width: 200px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
+        <col style="width: 300px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
     </colgroup>
 
     <thead>
@@ -78,7 +52,7 @@
                 <td>@(category.IsActive ? "Evet" : "Hayır")</td>
 
                 <td>
-                    <form asp-action="CategoryEdit" method="post" style="display: inline;">
+                    <form asp-action="CategoryActive" method="post" style="display: inline;">
                         <input type="hidden" name="id" value="@category.Id" />
                         @if (category.IsActive)
                         {
@@ -89,10 +63,15 @@
                             <button type="submit" class="btn btn-success btn-sm">Aktif Et</button>
                         }
                     </form>
+                    <form asp-action="CategoryEdit" method="post" style="display: inline;">
+                        <input type="hidden" value="@category.Id" name="id">
+                        <button type="submit" class="btn btn-dark btn-sm">Düzenle</button>
+                    </form>
                     <form asp-action="CategoryDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
                         <input type="hidden" value="@category.Id" name="id">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
+
                 </td>
             </tr>
         }

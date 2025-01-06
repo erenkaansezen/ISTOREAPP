@@ -47,19 +47,19 @@
 
 
 
-                        <a class="btn btn-outline-danger me-2" asp-controller="User" asp-action="Logout">LogOut</a>
+                        <a class="btn btn-outline-danger me-2" asp-controller="User" asp-action="Logout">Oturumu Kapat</a>
 
                         @if (User.IsInRole("Owner"))
                         {
-                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Rollers">Management</a>
+                            <a class="btn btn-warning" asp-controller="Admin" asp-action="Rollers">Yönetim Paneli</a>
                         }
                     </div>
                 }
                 else
                 {
                     <div class="text-end">
-                        <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Login</a>
-                        <a class="btn btn-warning" asp-controller="User" asp-action="Register">Sign-up</a>
+                        <a class="btn btn-outline-light me-2" asp-controller="User" asp-action="Login">Giriş Yap</a>
+                        <a class="btn btn-warning" asp-controller="User" asp-action="Register">Kayıt Ol</a>
                     </div>
                 }
 

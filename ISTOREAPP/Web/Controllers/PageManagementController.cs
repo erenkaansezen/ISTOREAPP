@@ -60,7 +60,7 @@ namespace ISTOREAPP.Web.Controllers
         }
         public IActionResult StoreProductCreate(int id)
         {
-            return View();
+            return View("StoreManagement/StoreProductCreate");
         }
 
 
@@ -195,7 +195,6 @@ namespace ISTOREAPP.Web.Controllers
             return RedirectToAction("StorePageManagement");
 
         }
-
 
 
 
@@ -357,7 +356,7 @@ namespace ISTOREAPP.Web.Controllers
 
         //Kategori Sayfası Yönetimi
         [HttpPost]
-        public IActionResult CategoryEdit(int id)
+        public IActionResult CategoryActive(int id)
         {
             var category = _context.Categories.FirstOrDefault(s => s.Id == id);
             if (category == null)

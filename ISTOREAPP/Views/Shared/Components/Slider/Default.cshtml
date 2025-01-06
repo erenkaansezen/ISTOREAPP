@@ -1,0 +1,34 @@
+﻿@model HomeViewModel
+<div class="row">
+    <div class="col-md-12">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="background-color:green">
+            @if (Model.Sliders != null)
+            {
+                <div class="carousel-inner">
+                    @foreach (var (sliders, index) in Model.Sliders.Where(s => s.IsActive == true).Select((value, i) => (value, i)))
+                    {
+                        var activeClass = index == 0 ? "active" : "";  // İlk öğeye 'active' sınıfı ekle
+                        <div class="carousel-item @activeClass">
+                            <img src="~/img/Slider/@sliders.SliderImg" class="d-block w-100" alt="Slider Image">
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>Henüz slider eklenmemiş.</p>
+            }
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
