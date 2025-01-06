@@ -235,7 +235,9 @@ namespace ISTOREAPP.Web.Controllers
         public async Task<IActionResult> SliderEdit(int id, Slider slidermodel, IFormFile imageFile)
         {
             var Sliders = await _sliderService.GetSliderByIdAsync(id);
+
             Sliders.SliderImgName = slidermodel.SliderImgName;
+
 
             if (imageFile != null && imageFile.Length > 0)
             {
@@ -262,18 +264,18 @@ namespace ISTOREAPP.Web.Controllers
                 Sliders.SliderImg = slidermodel.SliderImg;
             }
 
-            Sliders.SliderImg = slidermodel.SliderImg;
- 
+
+            
 
             await _sliderService.UpdateSliderAsync(Sliders);
-            return RedirectToAction("SliderManagement");
+            return RedirectToAction("HomeSliderManagement");
 
         }
 
         [HttpPost]
         public IActionResult SliderActive(int id)
         {
-            var slider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == id);
+            var slider = _context.Sliders.FirstOrDefault(s => s.Id == id);
             if (slider == null)
             {
                 return NotFound();
@@ -287,7 +289,7 @@ namespace ISTOREAPP.Web.Controllers
         [HttpPost]
         public IActionResult SliderDelete(int id)
         {
-            var slider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == id);
+            var slider = _context.Sliders.FirstOrDefault(s => s.Id == id);
             if (slider == null)
             {
                 return NotFound();
@@ -327,16 +329,16 @@ namespace ISTOREAPP.Web.Controllers
                 model.SliderImg = randomFileName;
             }
 
-            if (model.SliderImgId == 0)
+            if (model.Id == 0)
             {
                 // Yeni slider ekleme işlemi
-                model.SliderImgId = _context.Sliders.Count() + 1; // Yeni ID oluştur
+                model.Id = _context.Sliders.Count() + 1; // Yeni ID oluştur
                 _context.Sliders.Add(model);
             }
             else
             {
                 // Mevcut slider'ı güncelleme işlemi
-                var existingSlider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == model.SliderImgId);
+                var existingSlider = _context.Sliders.FirstOrDefault(s => s.Id == model.Id);
                 if (existingSlider != null)
                 {
                     existingSlider.SliderImg = model.SliderImg;

@@ -82,7 +82,7 @@
                 
                 <td>
                     <form asp-action="SliderActive" method="post" style="display: inline;">
-                        <input type="hidden" name="id" value="@slider.SliderImgId" />
+                        <input type="hidden" name="id" value="@slider.Id" />
                             @if (slider.IsActive)
                             {
                             <button type="submit" class="btn btn-warning btn-sm">Deaktif Et</button>
@@ -93,11 +93,11 @@
                             }
                     </form>
                     <form asp-action="SliderEdit" method="get" style="display: inline;">
-                        <input type="hidden" value="@slider.SliderImgId" name="id">
+                        <input type="hidden" value="@slider.Id" name="id">
                         <button type="submit" class="btn btn-dark btn-sm">Düzenle</button>
                     </form>
                     <form asp-action="SliderDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
-                        <input type="hidden" value="@slider.SliderImgId" name="id">
+                        <input type="hidden" value="@slider.Id" name="id">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
 
