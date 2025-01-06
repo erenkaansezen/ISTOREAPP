@@ -53,12 +53,12 @@
 <a class="btn btn-outline-success me-2"  asp-action="SliderCreate">İçerik Ekle</a>
 <br/>
 <br/>
-<table class="table table-sm table-bordered">
+<table class="table table-sm">
         <colgroup>
         <col style="width: 150px;">  <!-- Fotoğrafın genişliği -->
         <col style="width: auto;">   <!-- Diğer kolonlar için otomatik genişlik -->
         <col style="width: auto;">
-        <col style="width: 200px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
+        <col style="width: 300px;">  <!-- Düzenleme ve Silme butonları için kolon genişliği -->
     </colgroup>
 
     <thead>
@@ -66,6 +66,7 @@
             <th>İçerik</th>
             <th>İçerik Ad</th>
             <th>Aktif mi ?</th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -80,7 +81,7 @@
                 <td>@(slider.IsActive ? "Evet" : "Hayır")</td>
                 
                 <td>
-                    <form asp-action="SliderEdit" method="post" style="display: inline;">
+                    <form asp-action="SliderActive" method="post" style="display: inline;">
                         <input type="hidden" name="id" value="@slider.SliderImgId" />
                             @if (slider.IsActive)
                             {
@@ -91,11 +92,19 @@
                             <button type="submit" class="btn btn-success btn-sm">Aktif Et</button>
                             }
                     </form>
+                    <form asp-action="SliderEdit" method="get" style="display: inline;">
+                        <input type="hidden" value="@slider.SliderImgId" name="id">
+                        <button type="submit" class="btn btn-dark btn-sm">Düzenle</button>
+                    </form>
                     <form asp-action="SliderDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
                         <input type="hidden" value="@slider.SliderImgId" name="id">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
+
                 </td>
+@*                 <td>
+
+                </td> *@
             </tr>
         }
     </tbody>

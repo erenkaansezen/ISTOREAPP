@@ -71,7 +71,7 @@
     <div class="col-md-9">
 
         <br />
-        <table class="table table-sm table-bordered">
+        <table class="table table-sm">
             <colgroup>
                 <col style="width: 150px;">  <!-- Fotoğrafın genişliği -->
                 <col style="width: auto;">   <!-- Diğer kolonlar için otomatik genişlik -->
@@ -102,7 +102,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-dark">İşlemler ↓</button>
                                 <div class="dropdown-content">
-                                    <form asp-action="StoreProductEdit" method="post" style="display: inline;">
+                                    <form asp-action="StoreProductEdit" method="get" style="display: inline;">
                                         <input type="hidden" value="@product.Id" name="id">
                                         <button type="submit">Düzenle</button>
                                     </form>

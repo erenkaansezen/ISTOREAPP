@@ -3,7 +3,6 @@ using ISTOREAPP.Data.Context;
 using ISTOREAPP.Data.Entities;
 using ISTOREAPP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +12,16 @@ namespace ISTOREAPP.Web.Controllers
     public class PageManagementController : Controller
     {
         private readonly StoreContext _context;
+        private SliderService _sliderService;
         private readonly ProductService _productService;
+        private ProductCategoryService _productCategoryService;
 
-        public PageManagementController(StoreContext context, ProductService productService)
+        public PageManagementController(StoreContext context, ProductService productService, ProductCategoryService productCategoryService, SliderService sliderService)
         {
             _context = context;
             _productService = productService;
+            _productCategoryService = productCategoryService;
+            _sliderService = sliderService;
         }
 
 
@@ -49,21 +52,78 @@ namespace ISTOREAPP.Web.Controllers
 
             return View("StoreManagement/StorePageManagement", viewModel);
         }
-
+        [HttpGet]
         public async Task<IActionResult> StoreProductEdit(int id)
         {
             var products = await _productService.GetProductByIdAsync(id);
-            return View(products);
+            return View("StoreManagement/StoreProductEdit", products);
         }
-
-
-        //Mağaza Yönetimi Product İşlemleri
         public IActionResult StoreProductCreate(int id)
         {
             return View();
         }
+
+
+
+
+        //Mağaza Yönetimi Product İşlemleri
         [HttpPost]
-        public async Task<IActionResult> StoreProductCreate(Product productmodel, ProductCategory categorymodel, IFormFile imageFile)
+        public async Task<IActionResult> StoreProductEdit(int id, Data.Entities.Product model, ProductCategory categorymodel, IFormFile imageFile)
+        {
+            var categoriesid = _context.ProductCategory.FirstOrDefault();
+            var products = await _productService.GetProductByIdAsync(id);
+            // Yeni görsel yüklenmişse
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Dosya uzantısını al
+                var extension = Path.GetExtension(imageFile.FileName);
+
+                // Benzersiz dosya adı oluştur
+                var randomFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Dosyanın kaydedileceği yolu oluştur
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Product", randomFileName);
+
+                // Dosyayı belirtilen konuma kaydet
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Ürüne yeni görsel yolunu ekle
+                products.img = randomFileName;
+            }
+            else
+            {
+                model.img = products.img;
+            }
+
+            products.Name = model.Name;
+            products.Features = model.Features;
+            products.Description = model.Description;
+            products.CategoryId = model.CategoryId;
+            products.img = products.img;
+            products.Price = model.Price;
+            await _productService.UpdateProductAsync(products);
+
+
+            // Eski ProductCategory kaydını sil
+            await _productCategoryService.RemoveProductCategoryByProductIdAsync(products.Id);
+            // Yeni CategoryId ile yeni bir ProductCategory oluştur
+            var newProductCategory = new ProductCategory
+            {
+                ProductId = products.Id,
+                CategoryId = model.CategoryId // Yeni CategoryId
+            };
+
+            // Yeni ProductCategory'yi ekle
+            await _productCategoryService.AddProductCategoryAsync(newProductCategory);
+
+            return RedirectToAction("StorePageManagement");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> StoreProductCreate(Data.Entities.Product productmodel, ProductCategory categorymodel, IFormFile imageFile)
         {
             if (imageFile != null)
             {
@@ -88,7 +148,7 @@ namespace ISTOREAPP.Web.Controllers
 
             if (productmodel.img != null)
             {
-                var product = new Product()
+                var product = new Data.Entities.Product()
                 {
                     Name = productmodel.Name,
                     Description = productmodel.Description,
@@ -150,13 +210,13 @@ namespace ISTOREAPP.Web.Controllers
             // Veritabanından Slider verilerini al
             var sliders = _context.Sliders.ToList();
             // Dönüştürülen modeli view'a gönder
-            return View("HomeManagement/HomeSliderManagement",sliders);
+            return View("HomeManagement/HomeSliderManagement", sliders);
 
         }
         public IActionResult HomeCategoryManagement()
         {
             var categories = _context.Categories.ToList();
-            return View("HomeManagement/HomeCategoryManagement",categories);
+            return View("HomeManagement/HomeCategoryManagement", categories);
         }
         public IActionResult HomeFeaturedManagement()
         {
@@ -165,8 +225,53 @@ namespace ISTOREAPP.Web.Controllers
 
 
         //Slider Yönetimi
+        [HttpGet]
+        public async Task<IActionResult> SliderEdit(int id)
+        {
+            var Sliders = await _sliderService.GetSliderByIdAsync(id);
+            return View("SliderManagement/SliderEdit", Sliders);
+        }
         [HttpPost]
-        public IActionResult SliderEdit(int id)
+        public async Task<IActionResult> SliderEdit(int id, Slider slidermodel, IFormFile imageFile)
+        {
+            var Sliders = await _sliderService.GetSliderByIdAsync(id);
+            Sliders.SliderImgName = slidermodel.SliderImgName;
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Dosya uzantısını al
+                var extension = Path.GetExtension(imageFile.FileName);
+
+                // Benzersiz dosya adı oluştur
+                var randomFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Dosyanın kaydedileceği yolu oluştur
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Slider", randomFileName);
+
+                // Dosyayı belirtilen konuma kaydet
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Ürüne yeni görsel yolunu ekle
+                Sliders.SliderImg = randomFileName;
+            }
+            else
+            {
+                Sliders.SliderImg = slidermodel.SliderImg;
+            }
+
+            Sliders.SliderImg = slidermodel.SliderImg;
+ 
+
+            await _sliderService.UpdateSliderAsync(Sliders);
+            return RedirectToAction("SliderManagement");
+
+        }
+
+        [HttpPost]
+        public IActionResult SliderActive(int id)
         {
             var slider = _context.Sliders.FirstOrDefault(s => s.SliderImgId == id);
             if (slider == null)
@@ -340,6 +445,6 @@ namespace ISTOREAPP.Web.Controllers
             return View();
         }
 
-        
+
     }
 }

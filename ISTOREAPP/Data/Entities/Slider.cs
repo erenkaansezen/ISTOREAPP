@@ -6,8 +6,8 @@ namespace ISTOREAPP.Data.Entities
     {
         [Key]
         public int SliderImgId { get; set; }
-        public string? SliderImgName { get; set; }
-        public string? SliderImg { get; set; }
+        public string SliderImgName { get; set; } = string.Empty;
+        public string SliderImg { get; set; } = string.Empty;
 
         public bool IsActive { get; set; }
     }
