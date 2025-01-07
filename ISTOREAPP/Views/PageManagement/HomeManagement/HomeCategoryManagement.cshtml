@@ -21,7 +21,7 @@
 <hr>
 <!-- Kategoriler -->
 <vc:category />
-<hr />
+
 <a class="btn btn-outline-success me-2" asp-action="CategoryCreate">İçerik Ekle</a>
 <br />
 <br />
@@ -52,7 +52,7 @@
                 <td>@(category.IsActive ? "Evet" : "Hayır")</td>
 
                 <td>
-                    <form asp-action="CategoryActive" method="post" style="display: inline;">
+                    <form asp-action="CategoryActive" method="post" style="display: inline-block; margin-right: 5px;">
                         <input type="hidden" name="id" value="@category.Id" />
                         @if (category.IsActive)
                         {
@@ -63,11 +63,11 @@
                             <button type="submit" class="btn btn-success btn-sm">Aktif Et</button>
                         }
                     </form>
-                    <form asp-action="CategoryEdit" method="post" style="display: inline;">
+                    <form asp-action="CategoryEdit" method="get" style="display: inline-block; margin-right: 5px;">
                         <input type="hidden" value="@category.Id" name="id">
                         <button type="submit" class="btn btn-dark btn-sm">Düzenle</button>
                     </form>
-                    <form asp-action="CategoryDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline;">
+                    <form asp-action="CategoryDelete" method="post" onsubmit="return confirm('emin misiniz')" style="display: inline-block; margin-right: 5px;">
                         <input type="hidden" value="@category.Id" name="id">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>

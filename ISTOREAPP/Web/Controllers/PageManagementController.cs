@@ -13,15 +13,17 @@ namespace ISTOREAPP.Web.Controllers
     {
         private readonly StoreContext _context;
         private SliderService _sliderService;
+        private CategoryService _categoryService;
         private readonly ProductService _productService;
         private ProductCategoryService _productCategoryService;
 
-        public PageManagementController(StoreContext context, ProductService productService, ProductCategoryService productCategoryService, SliderService sliderService)
+        public PageManagementController(StoreContext context, ProductService productService, ProductCategoryService productCategoryService, SliderService sliderService, CategoryService categoryService)
         {
             _context = context;
             _productService = productService;
             _productCategoryService = productCategoryService;
             _sliderService = sliderService;
+            _categoryService = categoryService;
         }
 
 
@@ -286,17 +288,10 @@ namespace ISTOREAPP.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SliderDelete(int id)
+        public async Task<IActionResult> SliderDelete(int id)
         {
-            var slider = _context.Sliders.FirstOrDefault(s => s.Id == id);
-            if (slider == null)
-            {
-                return NotFound();
-            }
-
-            _context.Sliders.Remove(slider); // Durumu tersine çevir
-            _context.SaveChanges();
-            return RedirectToAction("HomeSliderManagement");
+            await _sliderService.DeleteSliderAsync(id);
+            return RedirectToAction("StorePageManagement");
         }
 
         public IActionResult SliderCreate(int id)
@@ -424,21 +419,63 @@ namespace ISTOREAPP.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Listeleme sayfasına yönlendir
-            return RedirectToAction("HomeManagement/HomeCategoryManagement");
-        }
-        [HttpPost]
-        public IActionResult CategoryDelete(int id)
-        {
-            var category = _context.Categories.FirstOrDefault(s => s.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Categories.Remove(category); // Durumu tersine çevir
-            _context.SaveChanges();
             return RedirectToAction("HomeCategoryManagement");
         }
+        [HttpPost]
+        public async Task<IActionResult> CategoryDelete(int id)
+        {
+            await _categoryService.DeleteCategoryAsync(id);
+            return RedirectToAction("CategoryPageManagement");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryEdit(int id)
+        {
+            var category = await _categoryService.GetCategoryByIdAsync(id);
+            return View("CategoryManagement/CategoryEdit", category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CategoryEdit(int id, Category categoryModel, IFormFile imageFile)
+        {
+            var category = await _categoryService.GetCategoryByIdAsync(id);
+
+            category.Name = categoryModel.Name;
+            category.Url = categoryModel.Url;
+
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                // Dosya uzantısını al
+                var extension = Path.GetExtension(imageFile.FileName);
+
+                // Benzersiz dosya adı oluştur
+                var randomFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Dosyanın kaydedileceği yolu oluştur
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Category", randomFileName);
+
+                // Dosyayı belirtilen konuma kaydet
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                // Ürüne yeni görsel yolunu ekle
+                category.CategoryImg = randomFileName;
+            }
+            else
+            {
+                category.CategoryImg = category.CategoryImg;
+            }
+
+
+
+
+            await _categoryService.UpdateCategoryAsync(category);
+            return RedirectToAction("HomeSliderManagement");
+
+        }
+        
 
         //İletişim Sayfası Yönetimi
         public IActionResult ContactPageManagement()

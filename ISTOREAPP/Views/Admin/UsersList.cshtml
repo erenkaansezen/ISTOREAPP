@@ -8,8 +8,13 @@
 <hr />
 
 
-
-<table class="table table-sm table-bordered">
+<form asp-action="UsersList" method="get">
+    <div class="input-group mb-3">
+        <input type="text" name="searchTerm" class="form-control" placeholder="email hesabı ile ara" value="@ViewBag.SearchTerm" />
+        <button class="btn btn-outline-secondary"  type="submit">Üye Ara</button>
+    </div>
+</form>
+<table class="table table-sm">
     <thead>
         <tr>
             <th>Id</th>

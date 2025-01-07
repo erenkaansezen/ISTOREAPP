@@ -25,10 +25,19 @@ namespace ISTOREAPP.Web.Controllers
             _context = context;
         }
 
-        //User Yönetimi
-        public IActionResult UsersList()
+        [HttpGet]
+        public IActionResult UsersList(string searchTerm)
         {
-            return View(_userManager.Users);
+            var users = _userManager.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                users = users.Where(u => EF.Functions.Like(u.Email, "%" + searchTerm + "%"));
+            }
+
+            ViewBag.SearchTerm = searchTerm;
+
+            return View(users.ToList());
         }
         public async Task<IActionResult> UserEdit(string id)
         {
