@@ -73,7 +73,7 @@ namespace ISTOREAPP.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home"); // eğer giriş başarılıysa kullanıcıyı home sayfasına yollar
+                    return RedirectToAction("Login", "User"); // eğer giriş başarılıysa kullanıcıyı home sayfasına yollar
                 }
                 else
                 {

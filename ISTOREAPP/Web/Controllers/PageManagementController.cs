@@ -472,7 +472,7 @@ namespace ISTOREAPP.Web.Controllers
 
 
             await _categoryService.UpdateCategoryAsync(category);
-            return RedirectToAction("HomeSliderManagement");
+            return RedirectToAction("HomeCategoryManagement");
 
         }
         

@@ -36,7 +36,7 @@
                             }
                         </td>
                         <td class="text-center">@order.OrderDate.ToString("dd-MM-yyyy HH:mm")</td>
-                        <td class="text-center text-success">@order.OrderItems.Sum(item => item.Price * item.Quantity).ToString("C")</td>
+                        <td class="text-center text-success">@order.OrderItems.Sum(item => item.Price * item.Quantity)</td>
                         <td class="text-center">
                             <form asp-action="OrderDetails" method="post" class="d-inline-block">
                                 <input type="hidden" name="id" value="@order.Id" />

@@ -14,8 +14,8 @@
         <form method="post" asp-action="Checkout">
             <div class="row">
                 <div class="col">
-                    <label asp-for="@Model.User.FullName">Kullanıcı Adı</label>
-                    <input asp-for="@Model.User.FullName" class="form-control" value="@Model.User.FullName"  disabled/>
+                    <label asp-for="User.UserName">Kullanıcı Adı</label>
+                    <input asp-for="User.UserName" class="form-control" value="@Model.User.FullName"  disabled/>
                 </div>
                 <div class="col">
                     <label asp-for="@Model.User.Email">Kullanıcı Email</label>
@@ -43,11 +43,11 @@
             <hr />
             <div class="row">
                 <div class="col">
-                    <label asp-for="@Model.CartName"></label>
+                    <label asp-for="@Model.CartName">Kartın Üstündeki İsim</label>
                     <input asp-for="@Model.CartName" class=form-control>
                 </div>
                 <div class="col">
-                    <label asp-for="@Model.CartSurname"></label>
+                    <label asp-for="@Model.CartSurname">Kartın Üstündeki Soyisim</label>
                     <input asp-for="@Model.CartSurname" class=form-control>
                 </div>
                 <div class="col">
@@ -90,6 +90,7 @@
                 </li>
                 <br />
             }
+            <span class="list-group-item d-flex justify-content-between bg-dark text-light" style="text-align: right;">Toplam Sepet Tutarı:  @Model?.Cart?.CalculateTotal() ₺</span>
         </ul>
 
     </div>
